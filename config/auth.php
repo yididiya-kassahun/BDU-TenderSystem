@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'bidder' => [
+            'driver' => 'session',
+            'provider' => 'bidders',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -71,6 +76,11 @@ return [
             'model' => App\User::class,
         ],
 
+        'bidders' => [
+            'driver' => 'eloquent',
+            'model' => App\Bidder::class,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -95,6 +105,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'bidders' => [
+            'provider' => 'bidders',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

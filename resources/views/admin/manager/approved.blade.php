@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('body_class','nav-md')
-
+@section('page')
  <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
@@ -32,9 +32,10 @@
                     
         <div class="x_panel">
                <h3>  Manager Dashboard | </h3><hr>
-             <h4>Approved Tender</h4><br/>  
+             <h4>Approved Tender</h4><br/>  <br/>
             @foreach ($detail as $details)
-              <br/>
+              
+            <div class="post" data-postid =" {{ $details->id }} ">
               <h2 style="color:black">Posted Date | {{ $details->created_at }}</h2> <br/><br/>
               <div class="one">
               <div class="col-md-6">
@@ -54,7 +55,14 @@
              </div>
               <div class="col-md-6">
              <h4><u>Summary</u> </h4><h5>{{ $details->summary }}</h5>
-             </div> 
+             </div> <br/>
+            </div>
+
+             <div class="myinfo">      
+              <input type="checkbox" class="js-switch" checked /> Posted
+                <a class="btn btn-primary posts" data-toggle="modal" data-target=".bs-example-modal-lg">Post</a>
+             </div>
+
              <div class="clearfix"></div>
               </div>
             <div class="separator">            
@@ -64,13 +72,69 @@
               @endforeach
             </div>
              @include('errors.message');
+             {{--   ################## Modal #####################  --}}
+             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="edit-modal">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel"> Write General Tender Announcement </h5>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {{--  Body --}}
                <div class="x_panel">
-              <div class="col-md-12 col-sm-12 ">
+              <div class="col-md-20 col-sm-20 ">
                 <div class="x_title">
-                  <h2>Write General Tender Announcement </h2>
                   <ul class="nav navbar-right panel_toolbox">
                   </ul>
                   <div class="clearfix"></div>
+                  {{-- Form element --}}
+
+                    {{--  <form method="POST" action="{{ route('createPost') }}" class="form-horizontal form-label-left" novalidate>  --}}
+                      {{--  {{ csrf_field() }}   --}}
+                      <span class="section">Tender Info</span>
+
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 label-align" for="name">ግዥ ፈጻሚ አካል <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6">
+                          <input id="purchaser" class="form-control" data-validate-words="2" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 label-align">የጨረታ ሰነድ የወጣበት የግዥ ዘዴ <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6">
+                          <input id="purchase_method" required="required" class="form-control">
+                        </div>
+                      </div>
+                    
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 label-align" for="number">የአገልግሎት ግዢ አይነት <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6">
+                          <input type="text" id="purchase_type" required="required" class="form-control">
+                        </div>
+                      </div>
+                     
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 label-align" for="telephone">የግዥ መለያ ቁጥር <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6">
+                          <input type="text" id="purchase_id_no" required="required"  class="form-control">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="textarea">የጨረታ ሰነድ የብዙ ምድብ(lot) መለያ ቁጥር <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6">
+                          <input  required="required" id="lot_no" class="form-control"></textarea>
+                        </div>
+                      </div>
+
+                  {{-- End form Element --}}
                 </div>
                   <div id="alerts"></div> 
                   <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
@@ -141,26 +205,37 @@
                       <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
                     </div>
                   </div>
-                  <form method="POST" action="{{ route('createPost') }}">
-                  {{ csrf_field() }} 
+                
                   <div class="form-group">
                   <div id="editor-one" class="editor-wrapper">            
-                  <textarea class="form-control" rows="10"  name="content" id="descr"></textarea></div>  
+                  <textarea class="form-control" rows="10" id="content" id="descr"></textarea></div>  
                   <br />
-                  <button type="submit" class="btn btn-primary">Post</button>
+                  
                   <div class="ln_solid"></div>
                    </div>
-                  </form>
+                   <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" id="modal-savee" class="btn btn-primary" data-dismiss="modal">Post</button>
+                      {{--  <button type="button" class="btn btn-primary" id="modal-save" data-dismiss="modal">Save changes</button>  --}}
+                    </div>
+                  {{--  </form>  --}}
             </div>
-            
         </div>
-          <br />
-             <br />
-                <br />
+         {{--  ...................  --}}
+      </div>
+     
+
+    </div>
+  </div>
+</div>
           </div>
             </div>
               </div>
       <footer>
        @include('admin.sections.footer')
       </footer>
-     
+<script>
+  var token = '{{ Session::token() }}';
+  var url = '{{ route('createPost') }}';
+</script>
+@endsection     

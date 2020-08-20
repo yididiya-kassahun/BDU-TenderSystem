@@ -15,12 +15,10 @@ class CreateBidderFilesTable extends Migration
     {
         Schema::create('bidder_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('buisness_license');
-            $table->longText('licence_certificate');
-            $table->longText('tax_certificate');
-            $table->longText('bid_bond_guarantee');
-            $table->longText('buisness_reg_certificate');
-            $table->longText('tax_duty_impose');
+            $table->longText('files');
+            $table->string('url');
+            $table->string('status')->default('Not Uploaded');
+            $table->integer('bidder_id');
             $table->timestamps();
         });
     }

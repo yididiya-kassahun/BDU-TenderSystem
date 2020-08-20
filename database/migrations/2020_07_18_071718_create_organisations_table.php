@@ -13,12 +13,12 @@ class CreateOrganisationsTable extends Migration
      */
     public function up()
     {
-        // Schema::create('organisations', function (Blueprint $table) {
-        //     $table->bigIncrements('org_id');
-        //     $table->string('org_name');
-        //     $table->string('org_city');
-        //     $table->timestamps();
-        // }); 
+        Schema::create('organisations', function (Blueprint $table) {
+            $table->bigIncrements('org_id');
+            $table->string('org_name');
+            $table->string('org_city');
+            $table->timestamps();
+        }); 
     }
 
     /**

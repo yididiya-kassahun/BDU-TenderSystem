@@ -15,10 +15,14 @@ class CreateTenderPostsTable extends Migration
     {
         Schema::create('tender_posts', function (Blueprint $table) {
             $table->bigIncrements('tender_id');
+            $table->string('purchaser');
+            $table->string('purchase_method');
+            $table->string('purchase_type');
+            $table->string('purchase_id_no');
+            $table->string('lot_no');
             $table->longText('content');
-            // $table->integer('user_id');
-             // $table->bigInteger('org_id')->unsigned();
-            // $table->foreign('org_id')->references('org_id')->on('organisations')->onDelete('cascade');
+            $table->integer('procurement_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

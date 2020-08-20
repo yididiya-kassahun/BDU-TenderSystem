@@ -22,8 +22,7 @@ class CreateProcurementsTable extends Migration
             $table->string('total_price');
             $table->string('summary');
             $table->boolean('approved')->default(false);
-            // $table->bigInteger('org_id')->unsigned();
-            // $table->foreign('org_id')->references('org_id')->on('organisations')->onDelete('cascade');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

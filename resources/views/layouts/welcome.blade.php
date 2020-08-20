@@ -5,10 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        {{--  <link rel="stylesheet" href="{{asset('css/app.css')}}">  --}}
         <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="build/css/custom.min.css" rel="stylesheet"> 
-        <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet"> 
+        <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
         <!-- Meta title & meta -->
     {{--@meta--}}
 
@@ -31,10 +31,14 @@
         <!-- Laravel variables for js -->
         {{--@tojs--}}
     </head>
-    <body>
-        <div class="flex-center position-ref full-height">
+    <body class="@yield('body_class')">
 
+            {{--Page--}}
+        
+        <div class="flex-center position-ref full-height">
+              
             <div class="content">
+                    @yield('page')
                 @yield('content')
 
             </div>

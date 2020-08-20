@@ -5,6 +5,7 @@
                   <li><a href=" {{ route('manager')}}"><i class="fa fa-home"></i> Home </a> </li>
                   <li><a href=" {{ route('add-bidder')}}"><i class="fa fa-edit"></i> Bidder </a> </li>
                   <li><a href=" {{ route('approved')}}"><i class="fa fa-clone"></i>Approved</a></li>
+                  <li><a href=" {{ route('paid')}}"><i class="fa fa-credit-card"></i>Payment</a></li>
                 </ul>
               </div>
             </div>

@@ -4,8 +4,8 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href=" {{ route('bidder') }}"><i class="fa fa-home"></i> Home </a> </li>
-                  <li><a><i class="fa fa-edit"></i> Editor </a> </li>
                   <li><a href=" {{ route('compliance.bidder') }}"><i class="fa fa-clone"></i> Compliance </a> </li>
+                  <li><a href="{{ route('bidder.winner') }}"><i class="fa fa-edit"></i> Information </a> </li>                
                 </ul>
               </div>
             </div>

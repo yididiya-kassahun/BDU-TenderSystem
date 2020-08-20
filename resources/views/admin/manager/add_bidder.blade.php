@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('body_class','nav-md')
-{{-- 
-@section('page') --}}
+
+@section('page')
 
  <div class="container body">
       <div class="main_container">
@@ -13,7 +13,6 @@
             </div>
 
             <div class="clearfix"></div>
-
             <!-- menu profile quick info -->
             @include('admin.manager.include.profile-menu')
             <br />
@@ -28,11 +27,9 @@
       <header>
       @include('admin.sections.header')
       </header>
-        <!-- /top navigation -->
 
         <!-- page content -->
         <div class="right_col" role="main">
-        {{-- <div class="col-md-12 col-sm-12 col-xs-12"> --}}
         <div class="x_panel">
                <h3>  Manager Dashboard | </h3><hr>
              <h4> Add Bidder Dashboard | ተጫራች ጨምር</h4><br/>   
@@ -54,52 +51,29 @@
                           <th>Last Name</th>
                           <th>Email</th>
                           <th>Company</th>
-                          <th>city</th>
                           <th>Company Phone Number</th>
                         </tr>
                       </thead>
                       <tbody>
+                      @foreach($BiddersList as $bidder)
                         <tr>
                           <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>mark@gmail.com</td>
-                          <td>Unisa Ltd.</td>
-                          <td>Addis Ababa</td>
-                          <td>+25198030232</td>
+                          <td>{{ $bidder->first_name }}</td>
+                          <td>{{ $bidder->last_name}}</td>
+                          <td>{{ $bidder->email }}</td>
+                          <td>{{ $bidder->company_name}}</td>
+                          <td>{{ $bidder->phone_number}}</td>
                           <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Abebe</td>
-                          <td>Otto</td>
-                          <td>abebe002@gmail.com</td>
-                          <td>Afri Ltd.</td>
-                          <td>Addis Ababa</td>
-                          <td>+25193050232</td>
-                          <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                           <th scope="row">3</th>
-                          <td>Kebede</td>
-                          <td>desta</td>
-                          <td>dest33@gmail.com</td>
-                          <td>Afri Ltd.</td>
-                          <td>Addis Ababa</td>
-                          <td>+25193050232</td>
-                          <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                        </tr>
+                      @endforeach
                       </tbody>
                     </table>         
                  </div>
-         
+           <div class="x_panel" style="margin-top:200px"></div>
           </div>
-           {{-- <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:600px">            
-            
-        </div> --}}
             </div>
               </div>
       <footer>
        @include('admin.sections.footer')
       </footer>
-     
+@endsection 

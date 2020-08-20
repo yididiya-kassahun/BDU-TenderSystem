@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('body_class','nav-md')
-{{-- 
-@section('page') --}}
+
+@section('page')
 
  <div class="container body">
       <div class="main_container">
@@ -57,8 +57,11 @@
               <br/>
             <div class="form-group">
                <h2>ለአዲስ ተቆጣጣሪ ኢሜል ላክ  </h2><br/>
-               <input class="form-control col-md-6 " id="email" type="email"><br/><br/><br/>
+               <form action="{{ route('sendEmail.super') }}" method="POST">
+               {{ csrf_field() }}
+               <input class="form-control col-md-6 " name="email" id="email" type="email"><br/><br/><br/>
                <button type="submit" class="btn btn-primary"> Send</button><br/>
+               </form>
             </div><br/><br/><br/><br/>
   <table class="table table-hover">
         <thead>
@@ -68,29 +71,33 @@
         <th>Procurement Officer</th>
         <th>Manager</th>
         <th>Commite Chair </th>
+         <th>Super Admin </th>
         <th></th>
         </thead>
         <tbody>
+        @foreach($users as $user)
+          
             <tr>
-                <form action="#" method="post">
-                    <td>yididiya</td>
-                    <td>kassahun</td> 
-                    <td>sdasdsad<input type="hidden" name="email" value="email"></td>
-                    <td><input type="checkbox" name="role_procurementOfficer"></td>
-                    <td><input type="checkbox" name="role_manager"></td>
-                    <td><input type="checkbox" name="role_committeChair"></td>
+                <form action="{{ route('admin.assign') }}" method="POST">
+                {{ csrf_field() }}
+                    <td>{{$user->first_name}}</td>
+                    <td>{{$user->last_name}}</td> 
+                    <td>{{$user->email}}<input type="hidden" name="email" value="{{$user->email}}"></td>
+                    <td><input type="checkbox" {{$user->hasRole('po') ? 'checked' : ''}} name="role_po"></td>
+                    <td><input type="checkbox" {{$user->hasRole('manager') ? 'checked' : ''}} name="role_manager"></td>
+                    <td><input type="checkbox" {{$user->hasRole('coc') ? 'checked' : ''}} name="role_coc"></td>
+                    <td><input type="checkbox" {{$user->hasRole('Super_admin') ? 'checked' : ''}} name="role_super"></td>
                     <td><button type="submit" class="btn btn-primary">Assign Roles</button></td>
                     <td><button type="submit" class="btn btn-danger">Delete</button></td>
-
                 </form>
             </tr>
+        @endforeach
         </tbody>
     </table>
 </div>
 </div>
  <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:600px">
-                 
-             
+                          
             
         </div>
               </div>
@@ -99,4 +106,4 @@
       <footer>
        @include('admin.sections.footer')
       </footer>
-     
+ @endsection    

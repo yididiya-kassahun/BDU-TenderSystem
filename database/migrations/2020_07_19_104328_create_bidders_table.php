@@ -13,17 +13,18 @@ class CreateBiddersTable extends Migration
      */
     public function up()
     {
-        // Schema::create('bidders', function (Blueprint $table) {
-        //     $table->bigIncrements('id');
-        //     $table->string('first_name');
-        //     $table->string('last_name');
-        //     $table->string('email')->unique();
-        //     $table->string('company_name');
-        //     $table->integer('tin_number');
-        //     $table->integer('phone_number');
-        //     $table->string('password');
-        //     $table->timestamps();
-        // });
+        Schema::create('bidders', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->unique();
+            $table->string('company_name');
+            $table->integer('phone_number');
+            $table->string('password');
+            $table->string('company_logo_url');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**

@@ -5,27 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TenderPost;
 use App\Procurement;
+use App\Bidder;
 
 class ManagerController extends Controller
 {
+     
      public function createTenderPost(Request $request){
 
         $this->validate($request,[
           'content' => 'required'
         ]);
+       // $proc = $request['postIds'];
         $tenderPost = new TenderPost();
+        $tenderPost->purchaser =$request['purchaser'];
+        $tenderPost->purchase_method = $request['purchase_method'];
+        $tenderPost->purchase_type = $request['purchase_type'];
+        $tenderPost->purchase_id_no = $request['purchase_id_no'];
+        $tenderPost->lot_no = $request['lot_no'];
         $tenderPost->content = $request['content'];
-       // $request->User()->posts->save($post);
+        $tenderPost->procurement_id = $request['postIds'];
+        $request->user()->posts()->save($tenderPost);
         $message = 'There was an Error occured';
         if($tenderPost->save()){
             $message = 'Post Successfully created';
         }
-        return redirect()->route('manager')->with(['message'=>$message]);
+       return response()->json(['message'=>'Post successfully created'],200);
      }
-
-    //  public function view1(){
-    //      return view('admin.manager.manager');
-    //  }
 
     public function approveTender($tender_id){
          
@@ -51,6 +56,11 @@ class ManagerController extends Controller
 }
 
      public function bidder_list(){
-      return view('admin.manager.add_bidder');
+      $showBidder = Bidder::all();
+      return view('admin.manager.add_bidder',['BiddersList'=>$showBidder]);
   }
+
+    public function payment(){
+          return view('admin.manager.payment_list');
+    }
 }

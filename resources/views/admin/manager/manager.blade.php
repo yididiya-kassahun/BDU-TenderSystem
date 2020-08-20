@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('body_class','nav-md')
+@section('page')
 
  <div class="container body">
       <div class="main_container">
@@ -60,7 +61,8 @@
               </div>
             <div class="separator">            
              <div class="col-md-6 row">
-             <button class="btn btn-primary"><a href=" {{ route('approveTender',['tender_id'=>$details->id]) }}">Approve</a></button>
+             <a href=" {{ route('approveTender',['tender_id'=>$details->id]) }}" class="btn btn-primary">
+               Approve</a>
               <button class="btn btn-danger">Disapprove</button> 
               </div><br/><br/></div>
               <br/>
@@ -68,12 +70,12 @@
               @endforeach
             
              @include('errors.message');
-           {{-- </div> --}}
                 </div>
+                <div class="x_panel" style="margin-top:500px"></div>
           </div>
             </div>
               </div>
       <footer>
        @include('admin.sections.footer')
       </footer>
-     
+@endsection

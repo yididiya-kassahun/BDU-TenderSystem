@@ -14,9 +14,9 @@ class CreateCompliancesTable extends Migration
     public function up()
     {
         Schema::create('compliances', function (Blueprint $table) {
-            $table->bigIncrements('_id');
-            $table->string('content');
-           // $table->integer('user_id');
+            $table->bigIncrements('id');
+            $table->longText('content');
+            $table->integer('bidder_id');
             $table->timestamps();
         });
     }

@@ -11,22 +11,22 @@
         <div class="separator"></div>
          <div class="clearfix"></div>
                 <br />
-         <form action="#" method="POST" class="form-horizontal form-label-left">
-
+         <form action="{{ route('admin.register') }}" method="POST" class="form-horizontal form-label-left">
+           
             <div class="form-group row">
              <label for="first-name">First Name</label>
-             <input class="form-control" type="text" name="first-name" id="first-name">
+             <input class="form-control" type="text" name="first_name" id="first-name">
             </div>
 
             <div class="form-group row">
-             <label  for="first-name">Last Name</label>
-             <input class="form-control" type="text" name="first-name" id="first-name">
+             <label  for="last_name">Last Name</label>
+             <input class="form-control" type="text" name="last_name" id="last_name">
             </div>
 
             <div class="form-group row">
                             <label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
                             <div class="col-md-6 col-sm-6 ">
-                              <div id="gender" class="btn-group" data-toggle="buttons">
+                              <div id="gender" class=" btn-group" data-toggle="buttons">
                                 <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                   <input type="radio" name="gender" value="male" class="join-btn"> &nbsp; Male &nbsp;
                                 </label>
@@ -44,17 +44,18 @@
             
             <div class="form-group row">
              <label for="ph-num">Phone Number</label>
-             <input class="form-control" type="number" name="ph-num" id="ph-num">
+             <input class="form-control" type="number" name="phone_number" id="ph-num">
             </div>
               <div class="form-group row">
              <label for="pass">Password</label>
-             <input class="form-control" type="password" name="pass" id="pass">
+             <input class="form-control" type="password" name="password" id="pass">
             </div>
               <div class="form-group row">
              <label for="conf-pass">Confrim Password</label>
              <input class="form-control" type="password" name="conf-pass" id="conf-pass">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+             <input type="hidden" name="_token" value="{{ Session::token() }}">
          </div>
          </div>
          </div>

@@ -114,4 +114,4 @@
       <footer>
        @include('admin.sections.footer')
       </footer>
-     
+@endsection     

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('body_class','nav-md')
-{{-- 
-@section('page') --}}
+
+@section('page')
 
  <div class="container body">
       <div class="main_container">
@@ -15,31 +15,11 @@
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="build/images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
+           @include('admin.procurrement-officer.include.profile-menu');
             <br />
 
             <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home </a> </li>
-                  <li><a><i class="fa fa-edit"></i> Posted Bidds</a> </li>
-                  <li><a><i class="fa fa-clone"></i>Layouts</a></li>
-                </ul>
-              </div>
-            </div>
-            <!-- /sidebar menu -->
+           @include('admin.procurrement-officer.include.side-nav');
           </div>
         </div>
         <!-- top navigation -->
@@ -104,45 +84,35 @@
                   </div>
                    <button type="submit" class="btn btn-primary" style="margin-left:400px">Send</button>
                   </form>
-             
-             
-             <br/>  <br/>  <br/>  <br/>  <br/>
+                </div>
+
+         <div class="row">
+         <div class="col-md-6">
+           <div class="x_panel">
             <div class="page-title">
               <div class="title_left">
-                <h3>የግዥ ሰነድ መፈጸሚያ </h3>
+                <h4>Technical Requirements </h4>
               </div>
             </div>
 
+            
             <div class="clearfix"></div>
+           </div>
+           </div>
 
-            <div class="row">
-              <div class="col-md-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Typography <small>different design elements</small></h2>
-                  
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
+             <div class="col-md-6">
+              <div class="x_panel">
+               <h4>Tender opening and closing date</h4>
+               
+             </div>
+             </div>
 
-                    <div class="col-md-8 col-lg-8 col-sm-7">
-                      <!-- blockquote -->
-                      <blockquote>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                          posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                          Someone famous in Source Title.
-                      </blockquote>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
+             </div>
           </div>
             </div>
               </div>
       <footer>
        @include('admin.sections.footer')
       </footer>
+@endsection
      

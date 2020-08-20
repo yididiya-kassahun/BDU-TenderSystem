@@ -11,8 +11,8 @@
         <div class="separator"></div>
          <div class="clearfix"></div>
                 <br />
-         <form action="#" method="POST" class="form-horizontal form-label-left">
-
+         <form action="{{ route('bidder.register') }}" method="POST" class="form-horizontal form-label-left">
+          
             <div class="form-group row">
              <label for="first-name">First Name</label>
              <input class="form-control" type="text" name="first_name" id="first-name">
@@ -32,11 +32,6 @@
              <label  for="company-name">Company Name</label>
              <input class="form-control" type="text" name="company_name" id="company-name">
             </div>
-            
-             <div class="form-group row">
-             <label for="tin-num">Tin Number</label>
-             <input class="form-control" type="number" name="tin_number" id="tin-num">
-            </div>
 
             <div class="form-group row">
              <label for="ph-num">Phone Number</label>
@@ -47,11 +42,13 @@
              <label for="pass">Password</label>
              <input class="form-control" type="password" name="password" id="pass">
             </div>
+
               <div class="form-group row">
              <label for="conf-pass">Confrim Password</label>
-             <input class="form-control" type="password" name="conf-pass" id="conf-pass">
+             <input type="password" class="form-control" name="conf-pass" id="conf-pass">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+         <input type="hidden" name="_token" value="{{ Session::token() }}">
          </div>
          </div>
          </div>
