@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Http\Request;
 
 class SendEmail extends Mailable
 {
@@ -28,6 +29,6 @@ class SendEmail extends Mailable
      */
     public function build(Request $request)
     {
-        return $this->view('superMail',['message'=>$request->message])->to($request->to);
+        return $this->view('superMail',['message'=>'WellCome To Bahir Dar University'])->to($request->to);
     }
 }

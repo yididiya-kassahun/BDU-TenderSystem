@@ -7,13 +7,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         {{--  <link rel="stylesheet" href="{{asset('css/app.css')}}">  --}}
         <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet"> 
+        <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet">
         <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
-        <!-- Meta title & meta -->
-    {{--@meta--}}
-
-    <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ asset('build/css/payment.css') }}" />
 
         <!-- Styles -->
         <style>
@@ -34,14 +30,22 @@
     <body class="@yield('body_class')">
 
             {{--Page--}}
-        
+
         <div class="flex-center position-ref full-height">
-              
+
             <div class="content">
                     @yield('page')
                 @yield('content')
+                @yield('scripts')
 
             </div>
         </div>
     </body>
+    <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+    <!-- Bootstrap -->
+    <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script>
+        var publishable_key = '{{ env('STRIPE_PUBLISHABLE_KEY') }}';
+    </script>
+    <script src="{{ asset('build/card.js') }}"></script>
 </html>

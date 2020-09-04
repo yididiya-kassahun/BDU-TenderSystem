@@ -14,8 +14,8 @@
                       <a class="dropdown-item"  href="javascript:;">
                         <span>Settings</span>
                       </a>
-                 
-                    <a class="dropdown-item"  href="{{ route('user.logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+
+                    <a class="dropdown-item"  href="{{ route('bidder.logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                   </div>
                 </li>
               </ul>

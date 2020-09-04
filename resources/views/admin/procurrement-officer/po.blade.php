@@ -30,10 +30,10 @@
         <div class="right_col" role="main">
         <div class="x_panel">
                <h3>  procurrement officer Dashboard | </h3><hr>
-               <h4> Anouncenemt Detail | PO</h4><br/>   
-               
+               <h4> Anouncenemt Detail | PO</h4><br/>
+
               <br/>
-              <form class="form-horizontal form-label-left" method="post" action="{{ route('po_data') }}">
+              <form class="form-horizontal form-label-left" method="POST" action="{{ route('po_data') }}">
               {{ csrf_field() }}
                   <div class="form-group row">
                     <h2 class="control-label col-md-3" for="type">Type - የዕቃው አይነት <span class="required"></span>
@@ -70,7 +70,7 @@
                    <div class="form-group row">
                     <h2 class="control-label col-md-3" for="t_price">Total Price - ጠቅላላ ዋጋ <span class="required"></span>
                     </h2>
-                    <div class="col-md-4"> 
+                    <div class="col-md-4">
                       <input class="form-control" type="number" id="t_price" name="total_price" required="required" class="form-control col-md-7 ">
                     </div>
                   </div>
@@ -94,16 +94,30 @@
                 <h4>Technical Requirements </h4>
               </div>
             </div>
-
-            
-            <div class="clearfix"></div>
-           </div>
+             <div class="separator"></div>
+             <div class="row">
+                 <div class="column">
+                 <h4>ጨረታ ምረጥ</h4>
+                <select class="form-control col-md-12" name="dropdown">
+                  @foreach($tenderPosts as $tenderPost)
+                  <option value="{{ $tenderPost->tender_id }}">{{ $tenderPost->purchase_id_no }}</option>
+                  @endforeach
+                </select>
+                 </div>
+            </div><br/>
+           <div class="row"><h4>ለቴክኒክ ግምገማ የተሰጠው ነጥብ ክብደት በመቶኛ : </h4><input type="number" class="form-control col-md-2"><h4>%</h4>
+             <button class="btn btn-success" style="margin-left: 15px">Add</button>
+            </div><br/><br/>
+            <div class="separator"></div>
+           
+          </div>
            </div>
 
              <div class="col-md-6">
               <div class="x_panel">
-               <h4>Tender opening and closing date</h4>
-               
+               <h4>Technical Requirement And Rank Table</h4>
+               <div class="separator"></div>
+
              </div>
              </div>
 
@@ -115,4 +129,3 @@
        @include('admin.sections.footer')
       </footer>
 @endsection
-     

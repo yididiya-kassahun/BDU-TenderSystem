@@ -45,16 +45,7 @@
                     <form class="">
                       <fieldset>
                         <div class="col-md-5">
-                            <div class="form-group">
-                              <h5>ጨረታው የሚከፈትበትና የሚያበቃበት ቀን - Date and Time</h5><small>Range</small>
-                            <div class="input-group date" id="reservation2">
-                              <input type="text" class="form-control"  value="01/01/2016 - 01/25/2016" />
-                              <span class="input-group-addon">
-                                <span class="fa fa-calendar">
-                                </span>
-                            </span>
-                            </div>
-                          </div>
+                           
                           <div class="form-group">
                                <h5> የጨረታው ውጤት ማሳወቂያ ቀን - Date and Time</h5>
                               <div class="input-group date" id="reservation2">

@@ -33,46 +33,48 @@
         <div class="right_col" role="main">
          <div class="x_panel">
          <h3> Compliance Page | COC </h3><hr>
-              
+
                   <div class="x_title">
                    <h4> List Of Compliance | የቅሬታ ማህደር</h4><br/>
-                
+
                     <div class="clearfix"></div>
                   </div>
-                 
+
                <section class="row posts"><br/>
              <div class="col-md-7 col-md-offset-4" style="margin-left:200px">
-                
+
                  <header></header>
-                 
+
                 @foreach( $allCompliances as $compliance)
-                 
+
                   <article class="post" data-postid =" {{ $compliance->id }} ">
-                     <p>{{ $compliance->content }}</p> 
+                     <p>{{ $compliance->content }}</p>
                      <div class="info">
                      Posted by max on {{ $compliance->created_at }} GC.
                      </div>
                      <div class="interaction">
-                     <a href="#" data-toggle="modal" class="reply" data-target=".bs-example-modal-lg">Reply</a> 
+                     <a href="#" data-toggle="modal" class="reply" data-target=".bs-example-modal-lg">Reply</a>
                      </div>
                  </article>
 
-                 @foreach($replys as $showReply)                                  
+                 @foreach($replys as $showReply)
                  @if($showReply->id == $compliance->id)
                  <article class="post" style="margin-left:70px">
-                 
+
                     <p>{{ $showReply->Reply }}</p>
-                
+                    <div class="info">
+                    <p><i> Replied On  {{ $showReply->created_at }}</i></p>
+                    </div>
                  </article>
-                 @endif 
-                 @endforeach 
-               
+                 @endif
                  @endforeach
-                 </div>    
-                 </section>      	
+
+                 @endforeach
+                 </div>
+                 </section>
                   </div>
                   <div class="x_panel" style="margin-top:400px"></div>
-      
+
               </div>
              </div>
           </div>
@@ -109,5 +111,4 @@
   var token = '{{ Session::token() }}';
   var url = '{{ route('reply.compliance') }}';
 </script>
- @endsection    
-     
+ @endsection

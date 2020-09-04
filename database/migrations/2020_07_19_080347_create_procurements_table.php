@@ -21,8 +21,8 @@ class CreateProcurementsTable extends Migration
             $table->string('single_price');
             $table->string('total_price');
             $table->string('summary');
-            $table->boolean('approved')->default(false);
             $table->integer('user_id');
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }

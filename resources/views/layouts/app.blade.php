@@ -8,6 +8,7 @@
         {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}">   --}}
         <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{asset('src/css/main.css')}}">
+        {{--  <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">  --}}
     <!-- Font Awesome -->
         <link href="{{asset('vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
         <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
@@ -17,6 +18,8 @@
         <link href="{{asset('vendors/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- iCheck -->
          <link href="{{asset('vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
+         {{--  <!-- Select2 -->
+         <link href="{{asset('vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">  --}}
     <!-- bootstrap-progressbar -->
          <link href="{{asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet">
     <!-- JQVMap -->
@@ -24,10 +27,9 @@
     <!-- bootstrap-daterangepicker -->
          <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
          <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet">
-         {{--  <!-- Ion.RangeSlider -->
-         <link href="{{asset('vendors/normalize-css/normalize.css')}}" rel="stylesheet">
-         <link href="{{asset('vendors/ion.rangeSlider/css/ion.rangeSlider.css')}}" rel="stylesheet">
-         <link href="{{asset('vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css')}}" rel="stylesheet">  --}}
+        {{--  .............########### ..........  --}}
+         <link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">
+         <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
 
          {{--CSRF Token--}}
          <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -88,5 +90,7 @@
         });
 
      </script>
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+     <script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
 
-</html>
+     </html>

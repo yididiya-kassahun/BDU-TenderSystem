@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\Route;
       ]);
       Route::get('/bidder.login',[
             'uses' => 'UserController@signInView'
-      ]);
+      ])->name('bidder.login');
 
       Route::post('/admin.login', [
             'uses' => 'AdminController@signIn',
@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Route;
 
       Route::get('/admin.login',[
             'uses' => 'AdminController@signInView'
-      ]);
+      ])->name('admin.login');
 
       Route::get('/check', function () {
             return view('admin.committe-chair.complaint');
@@ -56,14 +56,26 @@ use Illuminate\Support\Facades\Route;
 
       // ################# Bidder Route ##################
 
+
+      Route::group(['middleware'=>'auth:bidder'],function(){
+
       Route::get('/bidder',[
             'uses'=>'BidderController@dashboard',
-            'as'=>'bidder'
+            'as'=>'bidder',
+      ]);
+
+      Route::post('/signature',[
+        'uses'=>'BidderController@storeSignature'
       ]);
 
       Route::post('/bidder.info', [
-            'uses' => 'BidderController@BidderInfo',
-            'as' => 'bidder.info'
+        'uses' => 'BidderController@BidderInfo',
+        'as' => 'bidder.info'
+      ]);
+
+      Route::get('/forms',[
+        'uses'=>'BidderController@forms',
+        'as'=>'bidder.form'
       ]);
 
       Route::get('/fileimage/{filename}',[
@@ -94,14 +106,48 @@ use Illuminate\Support\Facades\Route;
              'uses' => 'BidderController@info_page',
              'as' => 'bidder.winner'
       ]);
+      Route::post('/income',[
+             'uses'=>'BidderController@income',
+             'as'=>'income'
+      ]);
+      Route::post('/auditor',[
+            'uses'=>'BidderController@auditorInfo',
+            'as'=>'auditor.info'
+      ]);
+      Route::get('/generatepdf',[
+            'uses'=>'BidderController@createPDF',
+            'as'=>'generate.pdf'
+      ]);
+      Route::post('/finance', [
+            'uses'=>'BidderController@BidderFinance',
+            'as'=>'bidder.finance'
+      ]);
 
-      // ########################### Home Route #############################
+     });
+
+    // Route::get('/generatepdf', function(){
+    //          $pdf  = App::make('snappy.pdf.wrapper');
+    //          $html = '<h1>hello pdf genreated</h1>';
+    //          $pdf->generateFromHtml($html, 'hello.pdf');
+
+    //          $pdf->inline();
+    // });
+
+      // ########################### Payment Route ################################3
 
       Route::get('/payment', [
-            'uses'=>'HomeController@payment',
+            'uses'=>'PaymentController@index',
             'as' => 'payment'
       ]);
 
+      Route::post('/pay', [
+        'uses'=>'PaymentController@charge',
+        'as' => 'charge'
+      ]);
+
+      Route::group(['middleware'=>'auth:web'],function(){
+
+     // ############################ Super Administrator Route ######################
       Route::get('/super', [
             'uses'=> 'SuperAdminController@super_view',
             'as'=>'super'
@@ -116,8 +162,8 @@ use Illuminate\Support\Facades\Route;
             'uses' => 'MailController@superSendEmail',
             'as' => 'sendEmail.super'
       ]);
-
       Route::get('email', ['uses'=>'MailController@email']);
+      // #################### Procurement Officer ##################################
 
       Route::get('/po', [
             'uses'=>'ProcurementController@po',
@@ -133,6 +179,12 @@ use Illuminate\Support\Facades\Route;
             'uses' => 'ProcurementController@posted_bid',
             'as' => 'posted.tender'
        ]);
+       Route::post('/techReview', [
+            'uses' => 'ProcurementController@TechnicalPoint',
+            'as' => 'techReview'
+       ]);
+
+       // ##################### Committe Chair Route #########################
 
        Route::get('/download/{name}', [
              'uses' => 'CommitteChairController@download',
@@ -169,6 +221,25 @@ use Illuminate\Support\Facades\Route;
              'uses' => 'CommitteChairController@informations',
              'as'=>'info.coc'
       ]);
+      Route::get('/finance', [
+             'uses' => 'CommitteChairController@finance',
+             'as' => 'finance'
+      ]);
+      Route::get('/BidderFinancial.detail/{bidder_id}', [
+        'uses' => 'CommitteChairController@BidderFinance',
+        'as' =>'BidderFinancial.detail'
+      ]);
+      Route::post('/techical.result/{id}',[
+        'uses'=> 'CommitteChairController@technicalBidResult',
+        'as'=>'techical.result'
+      ]);
+
+      Route::get('/table.view', [
+        'uses'=> 'CommitteChairController@tableView',
+        'as' => 'table.view'
+      ]);
+
+      // ###################### Manager Route ##############################
 
       Route::get('/manager', [
             'uses'=>'ManagerController@showTenderDetail',
@@ -190,6 +261,10 @@ use Illuminate\Support\Facades\Route;
             'uses' => 'ManagerController@approveTender',
             'as' => 'approveTender'
       ]);
+      Route::get('/disaproveTender/{tender_id}',[
+            'uses' => 'ManagerController@disapproveTender',
+            'as'=>'disaproveTender'
+      ]);
 
       Route::get('/add-bidder', [
             'uses'=>'ManagerController@bidder_list',
@@ -199,6 +274,13 @@ use Illuminate\Support\Facades\Route;
             'uses' => 'ManagerController@payment',
             'as' => 'paid'
       ]);
+      Route::post('/manager.mail', [
+            'uses' => 'MailController@managerSendEmail',
+            'as' => 'manager.mail'
+      ]);
+      //................
+      });
+       // ####################### Home  Route ############################
 
       Route::get('/home', [
             'uses'=>'HomeController@home',
@@ -213,9 +295,16 @@ use Illuminate\Support\Facades\Route;
 
       // Route::auth();
 
+       Route::get('/admin.logout', [
+             'uses'=>'AdminController@logout',
+             'as'=> 'admin.logout'
+       ]);
+
        Route::get('/logout', [
-             'uses'=>'AdminController@logout'
-       ])->name('user.logout');
+             'uses'=>'UserController@logout',
+             'as'=> 'bidder.logout'
+       ]);
+
        Route::get('/error404',[
              'uses' => 'CommitteChairController@bidding_page'
        ]);

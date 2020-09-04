@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\TenderPost;
 use App\Procurement;
@@ -9,7 +10,10 @@ use App\Bidder;
 
 class ManagerController extends Controller
 {
-     
+    public function _construct(){
+        $this->middleware('auth:user');
+    }
+
      public function createTenderPost(Request $request){
 
         $this->validate($request,[
@@ -33,7 +37,7 @@ class ManagerController extends Controller
      }
 
     public function approveTender($tender_id){
-         
+
           $approve = Procurement::where([['approved','=',false],['id','=',$tender_id]])->first();
           $approve->approved = true;
           $message = 'Tender not approved';
@@ -41,6 +45,19 @@ class ManagerController extends Controller
           $message = 'Tender approved';
           }
           return redirect()->route('manager')->with(['message'=>$message]);
+    }
+    public function disapproveTender($tender_id){
+        $user = Auth::user();
+        $user_id =$user->id;
+        $message ='Tender Not Successfully Disapproved';
+
+        $dispprove = Procurement::find($tender_id);
+          if($dispprove instanceof Procurement) {
+            if($dispprove->delete()) {
+               $message = 'Tender Disapproved Successfully';
+            }
+            return redirect()->route('manager')->with(['message'=>$message]);
+        }
     }
 
      public function showTenderDetail(){
@@ -53,10 +70,10 @@ class ManagerController extends Controller
 
       $showDetail = Procurement::where('approved','=',true)->get();
       return view('admin.manager.approved',['detail'=>$showDetail]);
-}
+  }
 
      public function bidder_list(){
-      $showBidder = Bidder::all();
+      $showBidder = Bidder::paginate(10);
       return view('admin.manager.add_bidder',['BiddersList'=>$showBidder]);
   }
 

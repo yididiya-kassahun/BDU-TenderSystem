@@ -23,18 +23,18 @@
           </div>
         </div>
         <!-- top navigation -->
-      <header>
-      @include('admin.sections.header')
-      </header>
+        <header>
+            @include('admin.manager.include.header')
+        </header>
         <!-- /top navigation -->
 
         <!-- page content -->
-       
+
         <div class="right_col" role="main">
-                    
+
         <div class="x_panel">
                <h3>  Manager Dashboard | </h3><hr>
-             <h4>Tender Anouncenemt Detail </h4><br/>  
+             <h4>Tender Anouncenemt Detail </h4><br/>
             @foreach ($detail as $details)
               <br/>
               <h2 style="color:black">Posted Date | {{ $details->created_at }}</h2> <br/><br/>
@@ -56,19 +56,19 @@
              </div>
               <div class="col-md-6">
              <h4><u>Summary</u> </h4><h5>{{ $details->summary }}</h5>
-             </div> 
+             </div>
              <div class="clearfix"></div>
               </div>
-            <div class="separator">            
+            <div class="separator">
              <div class="col-md-6 row">
              <a href=" {{ route('approveTender',['tender_id'=>$details->id]) }}" class="btn btn-primary">
                Approve</a>
-              <button class="btn btn-danger">Disapprove</button> 
+              <a href=" {{ route('disaproveTender',['tender_id'=>$details->id]) }}" class="btn btn-danger">Disapprove</a>
               </div><br/><br/></div>
               <br/>
-             <br/> 
+             <br/>
               @endforeach
-            
+
              @include('errors.message');
                 </div>
                 <div class="x_panel" style="margin-top:500px"></div>

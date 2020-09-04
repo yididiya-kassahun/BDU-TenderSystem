@@ -9,7 +9,7 @@ class Bidder extends Model implements Authenticatable
 {
 
     use \Illuminate\Auth\Authenticatable;
-    
+
     public function files(){
         return $this->hasMany('App\BidderFile');
     }
@@ -20,6 +20,16 @@ class Bidder extends Model implements Authenticatable
 
     public function compliances(){
         return $this->hasMany('App\compliance');
+    }
+
+    public function incomes(){
+        return $this->hasMany('App\Income');
+    }
+    public function auditors(){
+        return $this->hasMany('App\AuditorInfo');
+    }
+    public function finances(){
+        return $this->hasMany('App\BidderFinance');
     }
 
         protected $guard = 'bidder';

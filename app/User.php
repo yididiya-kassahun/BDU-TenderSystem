@@ -25,15 +25,27 @@ class User extends Model implements Authenticatable
     }
 
     public function hasRole($role){
-          
+
         if($this->roles()->where('name', $role)->first()){
             return true;
         }
         return false;
     }
 
+    public function procurments(){
+        return $this->hasMany('App\procurement');
+    }
+
     public function posts(){
         return $this->hasMany('App\TenderPost');
+    }
+
+    public function technicalrank(){
+        return $this->hasMany('App\TechnicalRank');
+    }
+
+    public function technicalresult(){
+        return $this->hasmany('App\TechnicalBidResult');
     }
 
     // public function compliances(){

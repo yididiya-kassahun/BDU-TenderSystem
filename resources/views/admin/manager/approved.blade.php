@@ -22,19 +22,19 @@
           </div>
         </div>
 
-      <header>
-      @include('admin.sections.header')
-      </header>
+        <header>
+            @include('admin.manager.include.header')
+        </header>
 
         <!-- page content -->
-       
+
         <div class="right_col" role="main">
-                    
+
         <div class="x_panel">
                <h3>  Manager Dashboard | </h3><hr>
              <h4>Approved Tender</h4><br/>  <br/>
             @foreach ($detail as $details)
-              
+
             <div class="post" data-postid =" {{ $details->id }} ">
               <h2 style="color:black">Posted Date | {{ $details->created_at }}</h2> <br/><br/>
               <div class="one">
@@ -58,17 +58,18 @@
              </div> <br/>
             </div>
 
-             <div class="myinfo">      
+             <div class="myinfo">
               <input type="checkbox" class="js-switch" checked /> Posted
                 <a class="btn btn-primary posts" data-toggle="modal" data-target=".bs-example-modal-lg">Post</a>
              </div>
 
              <div class="clearfix"></div>
               </div>
-            <div class="separator">            
+            <div class="separator">
              <br/><br/></div>
+
               <br/>
-             <br/> 
+             <br/>
               @endforeach
             </div>
              @include('errors.message');
@@ -110,7 +111,7 @@
                           <input id="purchase_method" required="required" class="form-control">
                         </div>
                       </div>
-                    
+
                       <div class="item form-group">
                         <label class="col-form-label col-md-3 label-align" for="number">የአገልግሎት ግዢ አይነት <span class="required">*</span>
                         </label>
@@ -118,7 +119,7 @@
                           <input type="text" id="purchase_type" required="required" class="form-control">
                         </div>
                       </div>
-                     
+
                       <div class="item form-group">
                         <label class="col-form-label col-md-3 label-align" for="telephone">የግዥ መለያ ቁጥር <span class="required">*</span>
                         </label>
@@ -136,7 +137,7 @@
 
                   {{-- End form Element --}}
                 </div>
-                  <div id="alerts"></div> 
+                  <div id="alerts"></div>
                   <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
                     <div class="btn-group">
                       <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
@@ -205,12 +206,12 @@
                       <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
                     </div>
                   </div>
-                
+
                   <div class="form-group">
-                  <div id="editor-one" class="editor-wrapper">            
-                  <textarea class="form-control" rows="10" id="content" id="descr"></textarea></div>  
+                  <div id="editor-one" class="editor-wrapper">
+                  <textarea class="form-control" rows="10" id="content" id="descr"></textarea></div>
                   <br />
-                  
+
                   <div class="ln_solid"></div>
                    </div>
                    <div class="modal-footer">
@@ -223,11 +224,12 @@
         </div>
          {{--  ...................  --}}
       </div>
-     
+
 
     </div>
   </div>
 </div>
+   <div class="x_panel" style="margin-top: 400px"></div>
           </div>
             </div>
               </div>
@@ -238,4 +240,4 @@
   var token = '{{ Session::token() }}';
   var url = '{{ route('createPost') }}';
 </script>
-@endsection     
+@endsection

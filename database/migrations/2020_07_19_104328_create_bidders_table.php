@@ -20,6 +20,7 @@ class CreateBiddersTable extends Migration
             $table->string('email')->unique();
             $table->string('company_name');
             $table->integer('phone_number');
+            $table->integer('tender_id'); 
             $table->string('password');
             $table->string('company_logo_url');
             $table->rememberToken();

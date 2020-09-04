@@ -36,7 +36,7 @@
                         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
                           <div class="tile-stats">
                             <div class="icon"><i class="fa fa-user"></i></div>
-                            <div class="count">179</div>
+                            <div class="count">{{$biddercount}}</div>
                             <h3>Total Bidders</h3>
                             {{--  <p>Total Bidders</p>  --}}
                           </div>
@@ -44,7 +44,7 @@
                         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
                           <div class="tile-stats">
                             <div class="icon"><i class="fa fa-question-circle"></i></div>
-                            <div class="count">179</div>
+                            <div class="count">{{$compliancecount}}</div>
                             <h3>Total Compliance</h3>
                             {{--  <p>Lorem ipsum psdea itgum rixt.</p>  --}}
                           </div>
@@ -52,11 +52,19 @@
                         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
                                 <div class="tile-stats">
                                   <div class="icon"><i class="fa fa-comments-o"></i></div>
-                                  <div class="count">179</div>
+                                  <div class="count">{{$post}}</div>
                                   <h3>Total Announcement</h3>
                                   {{--  <p>Lorem ipsum psdea itgum rixt.</p>  --}}
                                 </div>
                        </div>
+                       <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
+                        <div class="tile-stats">
+                          <div class="icon"><i class="fa fa-line-chart"></i></div>
+                          <div class="count">{{$post}}</div>
+                          <h3>Total </h3>
+                          {{--  <p>Lorem ipsum psdea itgum rixt.</p>  --}}
+                        </div>
+               </div>
                 </div>
            <div class="x_panel">
          <h3>  Committe Chair Dashboard | </h3><hr>
@@ -71,7 +79,7 @@
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
-
+                            <th>#</th>
                             <th class="column-title">First Name </th>
                             <th class="column-title">Last Name </th>
                             <th class="column-title">Email</th>
@@ -85,6 +93,7 @@
                         <tbody>
                         @foreach($showBidders as $bidder)
                           <tr class="even pointer">
+                            <td>{{$loop->index+1}}</td>
                             <td class=""><a href="{{ route('bidding',['id'=>$bidder->id]) }}">{{ $bidder->first_name }}</a></td>
                             <td class="">{{ $bidder->last_name }}</td>
                             <td class="">{{ $bidder->email}}</td>
@@ -94,6 +103,7 @@
                           @endforeach
                         </tbody>
                       </table>
+                      {{ $showBidders->links() }}
                     </div>
                 </div>
 

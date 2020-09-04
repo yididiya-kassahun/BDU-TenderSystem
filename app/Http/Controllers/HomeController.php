@@ -23,7 +23,5 @@ class HomeController extends Controller
          return view('detail', ['details'=>$detail],['showdetails'=>$showDetail]);
      }
 
-     public function payment(){
-         return view('payment');
-     }
+    
 }

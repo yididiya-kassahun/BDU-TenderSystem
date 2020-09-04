@@ -25,18 +25,21 @@
 
         <!-- top navigation -->
       <header>
-      @include('admin.sections.header')
+      @include('admin.manager.include.header')
       </header>
 
         <!-- page content -->
         <div class="right_col" role="main">
         <div class="x_panel">
                <h3>  Manager Dashboard | </h3><hr>
-             <h4> Add Bidder Dashboard | ተጫራች ጨምር</h4><br/>   
+             <h4> Add Bidder Dashboard | ተጫራች ጨምር</h4><br/>
               <div class="form-group">
                <label><h2>Invite Bidder Via Email  </h2></label><br/>
-               <input class="form-control col-md-5 " id="ex1" type="email" placeholder="Email"><br/><br/><br/>
+               <form action="{{ route('manager.mail') }}" method="POST">
+                   {{ csrf_field() }}
+               <input class="form-control col-md-5" name="to" id="ex1" type="email" placeholder="Email"><br/><br/><br/>
                <button type="submit" class="btn btn-primary"> Send</button><br/>
+               </form>
             </div>
             </div>
             <div class="x_panel">
@@ -67,13 +70,40 @@
                         </tr>
                       @endforeach
                       </tbody>
-                    </table>         
+                    </table>
+                    {{ $BiddersList->links() }}
                  </div>
-           <div class="x_panel" style="margin-top:200px"></div>
+           <div class="x_panel" style="margin-top:50px">
+            <form>
+            <div class="col-md-5">
+            <div class="form-group">
+                <h5>ጨረታው የሚከፈትበትና የሚያበቃበት ቀን - Date and Time</h5><small>Range</small>
+              <div class="input-group date" id="reservation2">
+                <input type="text" class="form-control"  value="01/01/2016 - 01/25/2016" />
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar">
+                  </span>
+              </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <h5>ቅሬታ ማቅረቢያ ቀነ ገደብ</h5>
+              <div class="input-group date" id="reservation2">
+                <input type="text" class="form-control"  value="01/25/2016" />
+                <span class="input-group-addon">
+                  <span class="fa fa-calendar">
+                  </span>
+              </span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+           </div>
           </div>
             </div>
               </div>
       <footer>
        @include('admin.sections.footer')
       </footer>
-@endsection 
+@endsection

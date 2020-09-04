@@ -3,7 +3,7 @@
 @section('body_class','login')
 
 @section('content')
-    
+
         <div class="col-md-4" style="margin-left:500px;margin-top:70px">
         <div class="right_col" role="main">
         <div class="x_panel">
@@ -12,7 +12,7 @@
          <div class="clearfix"></div>
                 <br />
          <form action="{{ route('bidder.register') }}" method="POST" class="form-horizontal form-label-left">
-          
+
             <div class="form-group row">
              <label for="first-name">First Name</label>
              <input class="form-control" type="text" name="first_name" id="first-name">
@@ -38,7 +38,19 @@
              <input class="form-control" type="number" name="phone_number" id="ph-num">
             </div>
 
-              <div class="form-group row">
+
+            <div class="form-group row">
+                <label for="ph-num"></label>
+                    <label for="dropdown">Choose Tender Type</label>
+
+                    <select class="form-control" name="tender_id" id="dropdown" data-parsley-required="true">
+                        @foreach($tenderTypes as $tenderType)
+                 <option value="{{ $tenderType->tender_id }}">{{ $tenderType->purchase_type }}</option>
+                        @endforeach
+                </select>
+               </div>
+
+            <div class="form-group row">
              <label for="pass">Password</label>
              <input class="form-control" type="password" name="password" id="pass">
             </div>
@@ -53,5 +65,5 @@
          </div>
          </div>
          </div>
-        </section>    
+        </section>
 @endsection

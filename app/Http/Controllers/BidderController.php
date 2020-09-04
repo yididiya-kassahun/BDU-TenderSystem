@@ -7,18 +7,24 @@ use App\compliance;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 use App\BidderFile;
 use App\BidderInfo;
 use App\Bidder;
+use App\TenderPost;
+use App\AuditorInfo;
+use App\Income;
+use App\BidderFinance;
 use DateTime;
+use PDF;
 use Carbon\Carbon;
 
 class BidderController extends Controller
 {
-    // public function _construct(){
-    //    // $this->middleware('auth');
-    // }
+    public function _construct(){
+        $this->middleware('auth:bidder');
+    }
 
     public function dashboard(Request $request){
 
@@ -162,11 +168,128 @@ class BidderController extends Controller
               }
             }
 
+            public function forms(){
+                $user = Auth::guard('bidder')->user();
+                $user_id =$user->id;
+                $default = Bidder::where(['id'=>$user_id])->first();
+                $profile = BidderInfo::where(['id'=>$user_id])->first();
+
+                $detail =TenderPost::all();
+                $bidderProfile = BidderInfo::where(['bidder_id'=>$user_id])->first();
+
+                if($profile){
+                return view('admin.bidder.forms',['profile'=>$profile],['details'=>$detail],['profile'=>$bidderProfile]);
+                }else{
+                return view('admin.bidder.forms',['profile'=>$default],['details'=>$detail],['profile'=>$bidderProfile]);
+                }
+             }
+
+             public function BidderFinance(Request $request){
+
+                $this->validate($request, [
+                        'catalogue'=>'required',
+                        'quantity'=>'required',
+                        'single_price'=>'required|integer',
+                        'total_price'=>'required|integer',
+                        'tender_price'=>'required|integer'
+                ]);
+
+                $finance = new BidderFinance();
+                $finance->catalogue = $request['catalogue'];
+                $finance->quantity = $request['quantity'];
+                $finance->single_price = $request['single_price'];
+                $finance->total_price = $request['total_price'];
+                $finance->tender_price = $request['tender_price'];
+                $request->user('bidder')->finances()->save($finance);
+
+                $message = 'Bidder Financial Form not saved';
+                if($finance->save()){
+                    $message = 'Form saved successfully';
+                }
+                return redirect()->route('bidder.form');
+
+             }
+
+            public function storeSignature(Request $request){
+
+                // $base64img =  $request->Input(['image']);
+                // $data = base64_decode($base64img); str_replace('data:image/png;base64,', '',
+
+                // $file = public_path() . '/uploads/signature/' .'123123123.png';
+                // file_put_contents($file, $data);
+                // return \Response::json($data);
+
+            }
+            // ******************** FORM *******************************//
+
+            public function income(Request $request){
+
+                $this->validate($request, [
+                    'first_year'  => 'required|integer',
+                    'second_year' => 'required|integer',
+                    'third_year'  => 'required|integer',
+              ]);
+              $average = $request['first_year']+$request['second_year']+$request['third_year']/3;
+
+              $income = new Income();
+              $income->first_year = $request['first_year'];
+              $income->second_year = $request['second_year'];
+              $income->third_year = $request['third_year'];
+              $income->average = $average;
+              $request->user('bidder')->incomes()->save($income);
+              $income->save();
+
+              return redirect()->back()->with(['average'=>$average]);
+
+            }
+
+            public function auditorInfo(Request $request){
+                $this->validate($request,[
+                     'full_name'=> 'required|min:4',
+                     'address'=>'required',
+                     'email'=>'required|email',
+                     'ph_number'=>'required'
+                ]);
+
+                $auditor = new AuditorInfo();
+                $auditor->full_name = $request['full_name'];
+                $auditor->address = $request['ph_number'];
+                $auditor->email = $request['email'];
+                $auditor->ph_number = $request['ph_number'];
+                $request->user('bidder')->auditors()->save($auditor);
+                $auditor->save();
+
+                return redirect()->back();
+
+            }
+
+            public function createPDF(Request $request) {
+
+                   $user = Auth::guard('bidder')->user();
+                   $user_id =$user->id;
+                   $default = Bidder::where(['id'=>$user_id])->first();
+                   $profile = BidderInfo::where(['bidder_id'=>$user_id])->first();
+                   $finance = BidderFinance::where(['bidder_id'=>$user_id])->first();
+
+                   $detail = TenderPost::all();
+                   if($request->has('download')) {
+
+                // *** share data to view *** //
+                   view()->share('details',$detail);
+                   view()->share('profile',$profile);
+                   view()->share('BidderFinance',$finance);
+                   //$pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+
+                   $pdf = PDF::loadView('/admin/bidder/pdf_view');
+                // return view('admin.bidder.pdf_view',['profile'=>$profile]);
+                // *** download PDF file with download method ***  //
+                return $pdf->download('pdf_file.pdf');
+                   }else{
+                       return redirect()->back();
+                   }
+              }
     }
 
 
-    // public function getfileImage($filename){
-    //     $file = Storage::disk('local')->get($filename);
-    //     return new Response($file, 200);
-    // }
+
 
