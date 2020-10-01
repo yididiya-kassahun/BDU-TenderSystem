@@ -42,14 +42,26 @@
                   <section class="row div22" style="margin-left: 120px">
                   <div class="div33 container">
 
-                    <form class="">
+                    <form method="POST" action="{{ route('info.coc') }}">
+                         {{ csrf_field() }}
                       <fieldset>
                         <div class="col-md-5">
-                           
+
+                            <div class="form-group row">
+                                <label for="ph-num"></label>
+                                    <label for="dropdown">Choose Tender Type</label>
+
+                                    <select class="form-control" name="tender_id" id="dropdown" data-parsley-required="true">
+                                        @foreach($tenderTypes as $tenderType)
+                                 <option value="{{ $tenderType->tender_id }}">{{ $tenderType->purchase_type }}</option>
+                                        @endforeach
+                                </select>
+                               </div>
+
                           <div class="form-group">
                                <h5> የጨረታው ውጤት ማሳወቂያ ቀን - Date and Time</h5>
-                              <div class="input-group date" id="reservation2">
-                                <input type="text" class="form-control"  value="01/01/2016 - 01/25/2016" />
+                              <div class="input-group date">
+                                <input type="text" class="form-control" name="finishing_date"/>
                                 <span class="input-group-addon">
                                   <span class="fa fa-calendar">
                                   </span>
@@ -58,8 +70,8 @@
                             </div>
                             <div class="form-group">
                                    <h5> Zoom Meeting Address </h5>
-                                  <div class="input-group date" id="reservation2">
-                                    <input type="text" class="form-control"/>
+                                  <div class="input-group">
+                                    <input type="text" name="zoom_url" class="form-control"/>
                                     <span class="input-group-addon">
                                       <span class="fa fa-video-camera">
                                       </span>

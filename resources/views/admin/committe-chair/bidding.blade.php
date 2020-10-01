@@ -93,14 +93,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                @foreach($showResult as $results)
+                        @foreach($showResult as $results)
                           <tr>
-                          <th scope="row">1</th>
+                          <td>{{$loop->index+1}}</td>
                           <td>{{$results->name}}</td>
                           <td> <a class="btn btn-info" href="{{ route('download',['name'=>$results->files])}}"><i class="fa fa-download"></i> Download File</a></td>
                           <td><button class="btn btn-success"><i class="fa fa-folder"></i> Open</button></td>
                         </tr>
-                @endforeach
+                        @endforeach
                       </tbody>
                     </table>
                 </div>
@@ -166,7 +166,7 @@
                         <form method="POST" action="{{ route('techical.result',['id'=>$bidder->id]) }}">
                             {{ csrf_field() }}
                         <tr>
-                        <th scope="row">1</th>
+                        <th>{{$loop->index+1}}</th>
                         <td><b>{{ $technical->technical_review }}</b></td>
                         <td><b>{{ $technical->point }}</b></td>
                         <td><input type="number" class="form-control col-md-4" name="rank"></td>
@@ -182,9 +182,7 @@
                       </form>
                       @endforeach
                     </tbody>
-
                   </table>
-
              </div>
           </div>
           </div>

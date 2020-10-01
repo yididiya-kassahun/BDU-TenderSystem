@@ -8,11 +8,14 @@ use App\compliance;
 use App\BidderInfo;
 use App\Bidder;
 use App\Reply;
+use App\file;
 use App\BidderFile;
 use App\TenderPost;
+use App\Information;
 use App\AuditorInfo;
 use App\TechnicalRank;
 use App\Income;
+use App\BidderWinner;
 use App\BidderFinance;
 use App\TechnicalBidResult;
 use Illuminate\Http\Response;
@@ -74,13 +77,14 @@ class CommitteChairController extends Controller
        // ######### Select Bidder by id
        // ######### fetch procurement id and match it in Technical Rank table
 
-      //return $rank;
-
        if($bidderProfile){
         $results = DB::table('bidder_files')
-        ->join('files', 'bidder_files.id', '=', 'files.id')
-        ->select('name', 'files', 'url')
+        ->join('files','files.id','=','bidder_files.order')
+        ->where('bidder_files.bidder_id', '=', $id)
+        ->select('files.name','bidder_files.files', 'bidder_files.url')
         ->get();
+
+        //return $results;
 
      return view('admin.committe-chair.bidding',
                 ['bidderFile'=>$bidderProfile,
@@ -131,7 +135,29 @@ class CommitteChairController extends Controller
             }
     }
     public function informations(){
-        return view('admin.committe-chair.information');
+        $tenderTypes = TenderPost::all();
+        return view('admin.committe-chair.information', ['tenderTypes'=>$tenderTypes]);
+    }
+
+    public function post_info(Request $request){
+
+        $this->validate($request, [
+               'finishing_date' => 'required',
+               'zoom_url' => 'required'
+        ]);
+        $message = 'Oops Error Occure';
+
+        $info = new Information();
+        $info->tender_finishing_date = $request['finishing_date'];
+        $info->zoom_address = $request['zoom_url'];
+        $info->tender_id = $request['tender_id'];
+        $request->user()->informations()->save($info);
+        if($info->save()){
+            $message = 'Information Successfully Posted !!';
+        }
+
+        return redirect()->route('information.page')->with(['message'=>$message]);
+
     }
 
    public function technicalBidResult(Request $request,$id){
@@ -139,7 +165,6 @@ class CommitteChairController extends Controller
         $bidder = Bidder::where(['id'=>$id])->first();
        // $techcount = TechnicalRank::all();
 
-      //  for($i = 0; $i < count($techcount); $i++){
          $techResult = new TechnicalBidResult();
          $techResult->rank = $request['rank'];
          $techResult->evaluation = $request['evaluation'];
@@ -150,8 +175,7 @@ class CommitteChairController extends Controller
          if($techResult->save()){
              $message='Technical Result Submitted';
          }
-      //  }
-       //  return redirect()->back();
+         return redirect()->back();
    }
 
    public function tableView(Request $request){
@@ -162,34 +186,92 @@ class CommitteChairController extends Controller
         $tableprice = 1;
         $tablequality = 0;
 
-        $price = BidderFinance::all();
+        $price_value = DB::table('bidder_finances')->min('tender_price');
+        $guarantee_value = DB::table('bidder_finances')->max('guarantee_date');
+
+        $beneficial = array();
+        $non_beneficial = array();
+
+        $price = BidderFinance::paginate(10);
+        $j = 0;
         foreach($price as $prices){
-            $bidder = Bidder::where(['id'=>$prices->bidder_id])->first();
+
+                $beneficial[$j] =($prices->guarantee_date/$guarantee_value)*0.2; // Is a criteria where higher value is desired
+                $non_beneficial[$j] =($price_value/$prices->tender_price)*0.8; // Is a criteria where lower value is desired
+
+                if(BidderWinner::where('bidder_id',$prices->bidder_id)->exists()){
+                    $message = "data already exist";
+                }else{
+                $final_value = new BidderWinner();
+                $final_value->bidder_id = $prices->bidder_id;
+                $final_value->price_based = $beneficial[$j]+$non_beneficial[$j];
+                $final_value->save();
+
+                $j = $j+1;
+
+             }
         }
+        // ########## ------ ##########
              return view('admin.committe-chair.decision',
              ['pricestate'=>$tableprice,'qualitystate'=>$tablequality,
-              'prices'=>$price,'company'=>$bidder]);
+              'prices'=>$price]);
 
     }elseif($request->has('quality') == 1 && ($request->has('price') == 1 && $request->has('guarantee') == 1)){
         $tableprice = 1;
         $tablequality = 1;
 
-        $price = BidderFinance::all();
-       // $technicalSum = TechnicalBidResult::all();
+        $price_value = DB::table('bidder_finances')->min('tender_price');
+        $guarantee_value = DB::table('bidder_finances')->max('guarantee_date');
 
+        $price = BidderFinance::paginate(10);
+        $result = array();
+        $beneficial = array();
+        $non_beneficial = array();
+        $beneficial_quality = array();
+        $k = 0;
+        foreach($price as $pricess){
+
+            $result[$k] = DB::table('technical_bid_results')
+            ->selectRaw('rank')
+            ->where(['bidder_id'=>$pricess->bidder_id])
+            ->sum('rank');
+
+            $bidderId = $pricess->bidder_id;
+            $addtech = BidderFinance::find($bidderId);
+            $addtech->technical_sum = $result[$k];
+            $addtech->update();
+            $k++;
+        }
+
+        $techSum = DB::table('bidder_finances')->max('technical_sum');
+        $i = 0;
         foreach($price as $prices){
-            $bidder = Bidder::where(['id'=>$prices->bidder_id])->first();
 
-            $result = DB::table('technical_bid_results')
+            $result[$i] = DB::table('technical_bid_results')
             ->selectRaw('rank')
             ->where(['bidder_id'=>$prices->bidder_id])
             ->sum('rank');
-           // return $result;
+
+            $beneficial[$i] =($prices->guarantee_date/$guarantee_value)*0.2; // Is a criteria where higher value is desired
+            $beneficial_quality[$i]=($result[$i]/$techSum)*0.2;
+            $non_beneficial[$i] =($price_value/$prices->tender_price)*0.6; // Is a criteria where lower value is desired
+
+            if(BidderWinner::where('bidder_id',$prices->bidder_id)->exists()){
+                $message = "data already exist";
+            }else{
+            $final_value = new BidderWinner();
+            $final_value->bidder_id = $prices->bidder_id;
+            $final_value->price_quality_based = $beneficial[$i]+$non_beneficial[$i]+$beneficial_quality[$i];
+            $final_value->save();
+
+            $i = $i+1;
+            }
+
         }
 
         return view('admin.committe-chair.decision',
         ['pricestate'=>$tableprice,'qualitystate'=>$tablequality,
-         'price'=>$prices,'company'=>$bidder,'technicalSum'=>$result]);
+         'price'=>$price]);
 
     }else{
         return view('admin.committe-chair.decision', ['pricestate'=>$tableprice,'qualitystate'=>$tablequality]);

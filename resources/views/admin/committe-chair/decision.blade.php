@@ -102,7 +102,7 @@
                      </div>
 
                   </div>
-                  <button type="submit" class="btn btn-info" style="margin-left: 400px">Process</button>
+                  <button type="submit" class="btn btn-info" style="margin-left: 400px">Process</button> |  <button type="submit" class="btn btn-danger">Show</button>
                 </form>
                   <div class="x_panel">
                     <div class="x_title">
@@ -131,18 +131,28 @@
                             <tbody>
                                 @foreach($prices as $price)
                                 <tr>
-                                <th scope="row">1</th>
-                                <td>{{ $company->company_name }}</td>
+                                <th>{{$loop->index+1}}</th>
+                                <td>{{ $price->company_name }}</td>
                                 <td>{{ $price->catalogue }}</td>
                                 <td>{{ $price->single_price }} <b>ብር</b></td>
                                 <td>{{ $price->total_price }} <b>ብር</b></td>
                                 <td>{{ $price->tender_price }} <b>ብር</b></td>
-                                <td></td>
+                                <td>{{ $price->guarantee_date }} <b>ቀን</b></td>
                               </tr>
                               @endforeach
                             </tbody>
 
                           </table>
+                          {{ $prices->links() }}
+                          <br/>
+                          <div>
+                              <h2>የአሸናፊ መረጃ</h2><hr>
+                            <h3>የድርጅቱ ስም ፡</h3>
+                            <h3>የድርጅቱ ኢሜል :</h3>
+                            <h3>ስልክ ቁጥር ፡ </h3>
+                            <h3>የአሸናፊ ዝቅተኛ ዋጋ ፡ብር</h3>
+                          </div>
+
                           @elseif($pricestate == 1 && $qualitystate == 1)
                           <h3>ዋጋን እና ጥራትን መሰረት ያደረገ መረጣ</h3>
                           <table class="table jambo_table">
@@ -157,16 +167,27 @@
                               </tr>
                             </thead>
                             <tbody>
+                                @foreach($price as $prices)
                              <tr>
-                                <td>1</td>
-                                <td>{{ $company->company_name }}</td>
-                                <td>{{ $price->catalogue }}</td>
-                                <td>{{ $price->tender_price }} <b>ብር</b></td>
-                                <td>{{ $technicalSum }}</td>
+                                <th>{{$loop->index+1}}</th>
+                                <td>{{ $prices->company_name }}</td>
+                                <td>{{ $prices->catalogue }}</td>
+                                <td>{{ $prices->tender_price }} <b>ብር</b></td>
+                                <td>{{ $prices->technical_sum }}</td>
+                                <td>{{ $prices->guarantee_date }} <b>ቀን</b></td>
                              </tr>
+                                @endforeach
                             </tbody>
-
                           </table>
+                          {{ $price->links() }}
+                          <br/>
+                          <div>
+                            <h2>የአሸናፊ መረጃ</h2><hr>
+                            <h3>የድርጅቱ ስም ፡</h3>
+                            <h3>የድርጅቱ ኢሜል :</h3>
+                            <h3>ስልክ ቁጥር ፡ </h3>
+                            <h3>የአሸናፊ ዝቅተኛ ዋጋ ፡ብር</h3>
+                          </div>
                           @endif
                     </div>
                   </div>

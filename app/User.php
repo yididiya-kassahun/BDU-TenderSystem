@@ -48,6 +48,10 @@ class User extends Model implements Authenticatable
         return $this->hasmany('App\TechnicalBidResult');
     }
 
+    public function informations(){
+        return $this->hasmany('App\Information');
+    }
+
     // public function compliances(){
     //     return $this->hasMany('App\compliance');
     // }

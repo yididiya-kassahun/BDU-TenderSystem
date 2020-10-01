@@ -15,13 +15,16 @@ class CreateBidderFinancesTable extends Migration
     {
         Schema::create('bidder_finances', function (Blueprint $table) {
             $table->id();
+            $table->string('company_name');
             $table->string('catalogue');
             $table->string('location')->default('ethiopia');
             $table->string('quantity');
             $table->integer('single_price');
             $table->integer('total_price');
             $table->integer('tender_price');
+            $table->integer('guarantee_date');
             $table->integer('bidder_id');
+            $table->integer('technical_sum')->default(0);
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@
                   <li><a href="{{ route('compliance.coc')}}"><i class="fa fa-edit"></i> Compliants</a> </li>
                   <li><a href="{{ route('finance') }}"><i class="fa fa-money"></i> Financial Data </a> </li>
                   <li><a href="{{ route('decision') }}"><i class="fa fa-clone"></i>Bidder Decision</a> </li>
-                  <li><a href="{{ route('info.coc')}}"><i class="fa fa-list-alt"></i>Information</a> </li>
+                  <li><a href="{{ route('information.page')}}"><i class="fa fa-list-alt"></i>Information</a> </li>
                 </ul>
               </div>
             </div>

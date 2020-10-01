@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Response;
 use App\BidderFile;
 use App\BidderInfo;
@@ -15,6 +16,7 @@ use App\Bidder;
 use App\TenderPost;
 use App\AuditorInfo;
 use App\Income;
+use App\Information;
 use App\BidderFinance;
 use DateTime;
 use PDF;
@@ -33,11 +35,12 @@ class BidderController extends Controller
         $user_id =$user->id;
         //return response()->json(['message' => $id], 200);
        // echo($id);
-        $profile = BidderInfo::where(['id'=>$user_id])->first();
+        $profile = BidderInfo::where(['bidder_id'=>$user_id])->first();
         $fileStatus = BidderFile::where(['bidder_id'=>$user_id])->first();
         $defaultStatus = DB::table('defaults')->select('status')->first();
         $default = Bidder::where(['id'=>$user_id])->first();
-        if($profile){
+
+        if($profile && $fileStatus){
             return view('admin.bidder.dashboard',['profile'=>$profile],['FileStatus'=>$fileStatus]);
         }else{
             return view('admin.bidder.dashboard',['profile'=>$default],['FileStatus'=>$defaultStatus]);
@@ -92,7 +95,7 @@ class BidderController extends Controller
         $user_id =$user->id;
         $default = Bidder::where(['id'=>$user_id])->first();
         $profile = BidderInfo::where(['id'=>$user_id])->first();
-        $showCompliance = compliance::orderBy('created_at','desc')->get();
+        $showCompliance = compliance::where(['bidder_id'=>$user_id])->orderBy('created_at','desc')->get();
 
         if($profile){
             return view('admin.bidder.compliance',['showCompliances'=>$showCompliance],['profile'=>$profile]);
@@ -135,6 +138,7 @@ class BidderController extends Controller
         $file = request()->file();
         $status = "Uploaded";
 
+        $i=1;
         foreach ($file as $images) {
             $filename = $images->getClientOriginalName();
           //  $file_extension = strtolower($images->getClientOriginalExtension());
@@ -148,21 +152,30 @@ class BidderController extends Controller
             $bidderFile->files = $filename;
             $bidderFile->url = $image_url;
             $bidderFile->status = $status;
+            $bidderFile->order = $i;
             $request->user('bidder')->files()->save($bidderFile);
             $bidderFile->save();
+            $i++;
 
         }
            return redirect()->route('bidder');
               }
 
           public function info_page(){
-            $date = Carbon::now();
             $user = Auth::guard('bidder')->user();
+
+           $item = DB::table('information')->select('tender_finishing_date')->where([
+            ['tender_id', '=', $user->tender_id]
+        ])->value('tender_finishing_date');
+
+           $date = Carbon::parse($item);
+           $information = Information::where(['tender_id'=>$user->tender_id])->first();
+
             $user_id =$user->id;
             $default = Bidder::where(['id'=>$user_id])->first();
             $profile = BidderInfo::where(['id'=>$user_id])->first();
             if($profile){
-                return view('admin.bidder.info',['profile'=>$profile],['date'=>$date]);
+                return view('admin.bidder.info',['profile'=>$profile],['date'=>$date,'info'=>$information]);
             }else{
                 return view('admin.bidder.info',['profile'=>$default]);
               }
@@ -172,7 +185,7 @@ class BidderController extends Controller
                 $user = Auth::guard('bidder')->user();
                 $user_id =$user->id;
                 $default = Bidder::where(['id'=>$user_id])->first();
-                $profile = BidderInfo::where(['id'=>$user_id])->first();
+                $profile = BidderInfo::where(['bidder_id'=>$user_id])->first();
 
                 $detail =TenderPost::all();
                 $bidderProfile = BidderInfo::where(['bidder_id'=>$user_id])->first();
@@ -185,21 +198,25 @@ class BidderController extends Controller
              }
 
              public function BidderFinance(Request $request){
+                $user = Auth::guard('bidder')->user();
 
                 $this->validate($request, [
                         'catalogue'=>'required',
                         'quantity'=>'required',
                         'single_price'=>'required|integer',
                         'total_price'=>'required|integer',
-                        'tender_price'=>'required|integer'
+                        'tender_price'=>'required|integer',
+                        'guaranteeDate'=>'required|integer'
                 ]);
 
                 $finance = new BidderFinance();
+                $finance->company_name = $user->company_name;
                 $finance->catalogue = $request['catalogue'];
                 $finance->quantity = $request['quantity'];
                 $finance->single_price = $request['single_price'];
                 $finance->total_price = $request['total_price'];
                 $finance->tender_price = $request['tender_price'];
+                $finance->guarantee_date = $request['guaranteeDate'];
                 $request->user('bidder')->finances()->save($finance);
 
                 $message = 'Bidder Financial Form not saved';

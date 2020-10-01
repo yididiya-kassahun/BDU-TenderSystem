@@ -146,6 +146,7 @@
                     <th>ብዛት</th>
                     <th>ነጠላ ዋጋ በኢትዮጵያ ብር</th>
                     <th>ጠቅላላ ዋጋ በኢትዮጵያ</th>
+                    <th>የዋስትና ጊዜ ብዛት</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -166,6 +167,9 @@
                     </div>
                     <div class="form-group row">
                     <td style="background-color:#e8f0fd"><input type="number" name="total_price" id="inputstyle" class="form-control col-md-12"></td>
+                    </div>
+                    <div class="form-group row">
+                    <td style="background-color:#e8f0fd"><input type="number" name="guaranteeDate" id="inputstyle" class="form-control col-md-12"></td>
                     </div>
                   </tr>
                 </tbody>

@@ -85,7 +85,7 @@
     <script  type="text/javascript">
         $(function () {
             $('#reservation2').datetimepicker({
-                format: 'DD-MM-YYYY'
+                format: 'YYYY-mm-d H:m:s'
             });
         });
 

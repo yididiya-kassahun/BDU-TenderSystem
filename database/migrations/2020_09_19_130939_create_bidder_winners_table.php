@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidderFilesTable extends Migration
+class CreateBidderWinnersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateBidderFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bidder_files', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->longText('files');
-            $table->string('url');
-            $table->string('status')->default('Not Uploaded');
-            $table->integer('order');
+        Schema::create('bidder_winners', function (Blueprint $table) {
+            $table->id();
             $table->integer('bidder_id');
+            $table->float('price_based')->default(0);
+            $table->float('price_quality_based')->default(0);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateBidderFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bidder_files');
+        Schema::dropIfExists('bidder_winners');
     }
 }

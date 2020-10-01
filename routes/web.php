@@ -219,8 +219,9 @@ use Illuminate\Support\Facades\Route;
 
       Route::get('/information', [
              'uses' => 'CommitteChairController@informations',
-             'as'=>'info.coc'
+             'as'=>'information.page'
       ]);
+      
       Route::get('/finance', [
              'uses' => 'CommitteChairController@finance',
              'as' => 'finance'
@@ -237,6 +238,11 @@ use Illuminate\Support\Facades\Route;
       Route::get('/table.view', [
         'uses'=> 'CommitteChairController@tableView',
         'as' => 'table.view'
+      ]);
+
+      Route::post('/info.coc', [
+        'uses' => 'CommitteChairController@post_info',
+        'as' => 'info.coc'
       ]);
 
       // ###################### Manager Route ##############################
