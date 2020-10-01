@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\compliance;
 use App\BidderInfo;
 use App\Bidder;
@@ -135,8 +136,37 @@ class CommitteChairController extends Controller
             }
     }
     public function informations(){
+        $user = Auth::user();
+        $tender_name = 'null';
+        if($user){
         $tenderTypes = TenderPost::all();
-        return view('admin.committe-chair.information', ['tenderTypes'=>$tenderTypes]);
+        $information = Information::all();
+
+       // foreach($tenderTypes as $tenderType){
+            foreach($information as $info)
+            $tender_name = TenderPost::where('tender_id','=',$info->tender_id)->first();
+
+      //  }
+        return view('admin.committe-chair.information',
+        ['tenderTypes'=>$tenderTypes,
+        'informations'=>$information,
+        'tenderName'=>$tender_name]);
+
+    }else{
+        return redirect()->back();
+     }
+    }
+    public function infodelete($info_id){
+        $message ='Information Not Successfully Deleted';
+
+        $info_delete = Information::find($info_id);
+          if($info_delete instanceof Information) {
+            if($info_delete->delete()) {
+               $message = 'Information deleted Successfully';
+            }
+          //  return redirect()->back();
+            return redirect()->route('information.page')->with(['message'=>$message]);
+        }
     }
 
     public function post_info(Request $request){

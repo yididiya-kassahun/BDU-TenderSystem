@@ -49,6 +49,7 @@ class ManagerController extends Controller
     public function disapproveTender($tender_id){
         $user = Auth::user();
         $user_id =$user->id;
+        if($user){
         $message ='Tender Not Successfully Disapproved';
 
         $dispprove = Procurement::find($tender_id);
@@ -58,6 +59,9 @@ class ManagerController extends Controller
             }
             return redirect()->route('manager')->with(['message'=>$message]);
         }
+    }else{
+        return redirect()->back()->with(['message'=>$message]);
+    }
     }
 
      public function showTenderDetail(){

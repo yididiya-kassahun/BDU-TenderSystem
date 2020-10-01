@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateInformationTable extends Migration
 {
@@ -15,9 +16,9 @@ class CreateInformationTable extends Migration
     {
         Schema::create('information', function (Blueprint $table) {
             $table->id();
-            $table->datetime('tender_finishing_date');
-            $table->string('zoom_address');
-            $table->integer('tender_id');
+            $table->datetime('tender_finishing_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('zoom_address')->default('null');
+            $table->integer('tender_id')->default(0);
             $table->integer('user_id');
             $table->timestamps();
         });

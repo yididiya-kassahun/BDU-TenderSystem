@@ -84,14 +84,20 @@
                     </form>
                   </div>
                   </section>
-
-                  <div class="container">
-
                   </div>
 
+                  <div class="x_panel" style="margin-top:50px">
+
+                    @foreach ($informations as $information)
+                    <h4> የጨረታ አይነት : <b>{{ $tenderName->purchase_type }}</b></h4>
+                    <h4> የጨረታ ውጤት ማሳወቂያ ቀን : <b>{{ $information->tender_finishing_date }}</b></h4>
+                    <h4> Zoom አድራሻ : <b>{{ $information->zoom_address }}</b></h4>
+                    <hr>
+                    <button class="btn btn-primary">Update</button> | <a href="{{ route('info.coc.delete', ['info_id'=>$information->id]) }}"  class="btn btn-danger">delete</a>
+                    @endforeach
+
                   </div>
-                  <div class="x_panel" style="margin-top:500px">
-                  </div>
+                  <div class="x_panel" style="margin-top: 200px"></div>
              </div>
           </div>
             </div>
