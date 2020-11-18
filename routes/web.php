@@ -288,6 +288,10 @@ use Illuminate\Support\Facades\Route;
             'uses' => 'MailController@managerSendEmail',
             'as' => 'manager.mail'
       ]);
+      Route::get('/telegram',[
+            'uses' => 'ManagerController@telegramView',
+            'as' => 'telegram.view'
+      ]);
       //................
       });
        // ####################### Home  Route ############################

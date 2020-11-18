@@ -34,12 +34,12 @@
         <div class="flex-center position-ref full-height">
 
             <div class="content">
-                    @yield('page')
+                @yield('page')
                 @yield('content')
                 @yield('scripts')
 
             </div>
-        </div>
+         </div>
     </body>
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->

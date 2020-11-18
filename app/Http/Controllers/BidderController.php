@@ -67,7 +67,6 @@ class BidderController extends Controller
               $file = null;
               $file = $request->file('company_logo_url');
                  $filename = $file->getClientOriginalName();
-                // echo($filename);
               $destinationPath = public_path('/images/logos');
               $file->move($destinationPath, $filename);
              // $image_url = 'http://127.0.0.1:8000/images/logos/'.$filename;
@@ -298,7 +297,6 @@ class BidderController extends Controller
                    //$pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 
                    $pdf = PDF::loadView('/admin/bidder/pdf_view');
-                // return view('admin.bidder.pdf_view',['profile'=>$profile]);
                 // *** download PDF file with download method ***  //
                 return $pdf->download('pdf_file.pdf');
                    }else{

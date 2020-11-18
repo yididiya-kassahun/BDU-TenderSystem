@@ -146,11 +146,14 @@
                           {{ $prices->links() }}
                           <br/>
                           <div>
-                              <h2>የአሸናፊ መረጃ</h2><hr>
-                            <h3>የድርጅቱ ስም ፡</h3>
-                            <h3>የድርጅቱ ኢሜል :</h3>
-                            <h3>ስልክ ቁጥር ፡ </h3>
-                            <h3>የአሸናፊ ዝቅተኛ ዋጋ ፡ብር</h3>
+                             @foreach ($company as $companys)
+                            <h2>የአሸናፊ መረጃ</h2>
+                            <hr>
+                            <h3>የድርጅቱ ስም ፡ {{ $companys->company_name}}</h3>
+                            <h3>የድርጅቱ ኢሜል : {{ $companys->company_email }}</h3>
+                            <h3>ስልክ ቁጥር ፡ {{ $companys->company_ph }}</h3>
+                            <h3>የአሸናፊ ዝቅተኛ ዋጋ ፡ {{ $companys->tender_price }}ብር</h3>
+                            @endforeach
                           </div>
 
                           @elseif($pricestate == 1 && $qualitystate == 1)
@@ -182,11 +185,13 @@
                           {{ $price->links() }}
                           <br/>
                           <div>
+                         @foreach ($company as $companys)
                             <h2>የአሸናፊ መረጃ</h2><hr>
-                            <h3>የድርጅቱ ስም ፡</h3>
-                            <h3>የድርጅቱ ኢሜል :</h3>
-                            <h3>ስልክ ቁጥር ፡ </h3>
-                            <h3>የአሸናፊ ዝቅተኛ ዋጋ ፡ብር</h3>
+                            <h3>የድርጅቱ ስም ፡ {{ $companys->company_name}}</h3>
+                            <h3>የድርጅቱ ኢሜል : {{ $companys->company_email }}</h3>
+                            <h3>ስልክ ቁጥር ፡ {{ $companys->company_ph }}</h3>
+                            <h3>የአሸናፊ ዝቅተኛ ዋጋ ፡ {{ $companys->tender_price }}ብር</h3>
+                        @endforeach
                           </div>
                           @endif
                     </div>

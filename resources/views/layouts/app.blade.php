@@ -5,10 +5,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}">   --}}
-        <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{asset('src/css/main.css')}}">
-        {{--  <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">  --}}
+        <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
         <link href="{{asset('vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
         <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
@@ -18,8 +16,6 @@
         <link href="{{asset('vendors/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- iCheck -->
          <link href="{{asset('vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
-         {{--  <!-- Select2 -->
-         <link href="{{asset('vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">  --}}
     <!-- bootstrap-progressbar -->
          <link href="{{asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet">
     <!-- JQVMap -->
@@ -50,15 +46,14 @@
         @yield('scripts')
         @stack('scripts') --}}
     </body>
-    {{-- <script src="/assets/admin/js/dashboard.js"></script> --}}
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
-    <script src=" {{ URL::to('build/app.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- FastClick -->
-    <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
+    <script src=" {{ URL::to('build/app.js') }}"></script>
     <!-- NProgress -->
     <script src="{{asset('vendors/nprogress/nprogress.js')}}"></script>
+    <!-- FastClick -->
+    <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
     <!-- Chart.js -->
     <script src="{{asset('vendors/Chart.js/dist/Chart.min.js')}}"></script>
     <!-- gauge.js -->
@@ -77,8 +72,8 @@
     <script src="{{URL::to('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <!-- bootstrap-datetimepicker -->
     <script src="{{URL::to('vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
-    <!-- Ion.RangeSlider -->
-    <script src="{{asset('vendors/ion.rangeSlider/js/ion.rangeSlider.min.js')}}"></script>
+   <!-- Ion.RangeSlider -->
+    <script src="{{asset('vendors/ion.rangeSlider/js/ion.rangeSlider.min.js')}}"></script> 
     <script src="{{asset('vendors/iCheck/icheck.min.js')}}"></script>
     <script src="{{asset('vendors/switchery/dist/switchery.min.js')}}"></script>
 
@@ -91,6 +86,6 @@
 
      </script>
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-     <script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
+     {{-- <script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script> --}}
 
      </html>

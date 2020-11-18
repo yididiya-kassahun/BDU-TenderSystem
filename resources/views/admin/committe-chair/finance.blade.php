@@ -32,6 +32,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
+
          <h3>  Committe Chair Dashboard | </h3><hr>
          <div class="x_panel">
             <h3>ሰነዱ የሚከፈትበት ቀን እና ሰዐት ፡</h3>

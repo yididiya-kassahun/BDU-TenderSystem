@@ -21,6 +21,7 @@ use App\BidderFinance;
 use App\TechnicalBidResult;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class CommitteChairController extends Controller
 {
@@ -57,6 +58,7 @@ class CommitteChairController extends Controller
         $compliance = compliance::all()->count();
         $posts = TenderPost::all()->count();
         $count = $showBidder->count();
+        $dateState = 0;
 
         return view('admin.committe-chair.coc',
         ['showBidders'=>$showBidder,
@@ -101,15 +103,44 @@ class CommitteChairController extends Controller
     }
 
     public function decision_page(){
-        $tableprice = 0;
-        $tablequality = 0;
-        return view('admin.committe-chair.decision',['pricestate'=>$tableprice,'qualitystate'=>$tablequality]);
+        $tenderDate = DB::table('information')->select('tender_finishing_date')
+        ->value('tender_finishing_date'); // Getting tender date value
+         $date = Carbon::parse($tenderDate);
+
+         $convertDate = strtotime($tenderDate); // Convert it to Integer
+         $now = Carbon::now();
+         $convetNow = strtotime($now); // Convert it to Integer
+
+         if($convertDate <= $convetNow){
+
+            $tableprice = 0;
+            $tablequality = 0;
+            return view('admin.committe-chair.decision',['pricestate'=>$tableprice,'qualitystate'=>$tablequality]);
+
+         }else{
+          return view('errors.permissionError',['date'=>$date]);
+         }
     }
     public function finance(){
-        $showBidder = Bidder::paginate(10);
-        return view('admin.committe-chair.finance',['showBidders'=>$showBidder]);
+        $tenderDate = DB::table('information')->select('tender_finishing_date')
+                    ->value('tender_finishing_date'); // Getting tender date value
+        $date = Carbon::parse($tenderDate);
 
+        $convertDate = strtotime($tenderDate); // Convert it to Integer
+        $now = Carbon::now();
+        $convetNow = strtotime($now); // Convert it to Integer
+        $dateState = 0;
+
+        $showBidder = Bidder::paginate(10);
+            if($convertDate <= $convetNow){
+             $dateState = 1;
+             return view('admin.committe-chair.finance',['dateState'=>$dateState,'showBidders'=>$showBidder]);
+            }else{
+                $dateState = 0;
+             return view('errors.permissionError',['dateState'=>$dateState,'date'=>$date]);
+            }
     }
+
     public function BidderFinance($id){
         $bidderFinance = BidderFinance::where(['bidder_id'=>$id])->first();
         if($bidderFinance){
@@ -240,11 +271,21 @@ class CommitteChairController extends Controller
                 $j = $j+1;
 
              }
-        }
+            }
+       $winner = BidderWinner::orderBy('price_based','desc')->first();
+         // ####### fetch the id of max point earned by MCDM Algorithm #######
+         // ####### Then get the whole info of the winner by matching the id #######
+
+         $company = DB::table('bidder_infos')
+         ->join('bidder_finances','bidder_infos.bidder_id','=','bidder_finances.bidder_id')
+         ->select('company_name','company_email','company_ph','agent_name','tender_price')
+         ->where(['bidder_finances.bidder_id'=>$winner->bidder_id])
+         ->get();
+
         // ########## ------ ##########
              return view('admin.committe-chair.decision',
              ['pricestate'=>$tableprice,'qualitystate'=>$tablequality,
-              'prices'=>$price]);
+              'prices'=>$price,'company'=>$company]);
 
     }elseif($request->has('quality') == 1 && ($request->has('price') == 1 && $request->has('guarantee') == 1)){
         $tableprice = 1;
@@ -298,10 +339,20 @@ class CommitteChairController extends Controller
             }
 
         }
+       // $winner = DB::table('bidder_winners')->orderBy('price_quality_based','desc')->first();
+         $winner = BidderWinner::orderBy('price_quality_based','desc')->first();
+         // ####### fetch the id of max point earned by MCDM Algorithm #######
+         // ####### Then get the whole info of the winner by matching the id #######
+
+         $company = DB::table('bidder_infos')
+         ->join('bidder_finances','bidder_infos.bidder_id','=','bidder_finances.bidder_id')
+         ->select('company_name','company_email','company_ph','agent_name','tender_price')
+         ->where(['bidder_finances.bidder_id'=>$winner->bidder_id])
+         ->get();
 
         return view('admin.committe-chair.decision',
         ['pricestate'=>$tableprice,'qualitystate'=>$tablequality,
-         'price'=>$price]);
+         'price'=>$price,'company'=>$company]);
 
     }else{
         return view('admin.committe-chair.decision', ['pricestate'=>$tableprice,'qualitystate'=>$tablequality]);

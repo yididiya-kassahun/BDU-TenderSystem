@@ -115,9 +115,7 @@
                        <h6><i class="fa fa-envelope"></i>|<b> ኢሜል - Email ፡</b> {{ $auditor->email }}</h6>
                        <h6><i class="fa fa-phone"></i>|<b> ስልክ ቁጥር - Phone Number፡</b> {{ $auditor->ph_number }}</h6>
                    </div>
-
              </div>
-            {{--  </div>  --}}
 
              <div class="col-md-6">
               <div class="x_panel">
@@ -135,7 +133,6 @@
                             ባለፉት አመታት የተፈጸሙ አጥጋቢ ኮንትራቶች</h6></p>
                            <button class="form-control btn btn-primary">Download</button>
                         </div>
-                    {{--  <div class="separator"></div>  --}}
                     </div>
             </div>
             <div class="x_panel">
@@ -193,7 +190,7 @@
        @include('admin.sections.footer')
       </footer>
 
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js" charset="utf-8"></script>  --}}
       <script src="http://www.chartjs.org/dist/2.7.3/Chart.bundle.js"></script>
       <script src="http://www.chartjs.org/samples/latest/utils.js"></script>

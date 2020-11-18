@@ -11,7 +11,6 @@ class HomeController extends Controller
 {
      public function home(){
          $post = TenderPost::all();
-         //$post = DB::table('tender_posts')->value('content');
          return view('home', ['contents'=>$post]);
      }
 
@@ -23,5 +22,5 @@ class HomeController extends Controller
          return view('detail', ['details'=>$detail],['showdetails'=>$showDetail]);
      }
 
-    
+
 }

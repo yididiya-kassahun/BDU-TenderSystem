@@ -82,11 +82,9 @@ class UserController extends Controller implements Authenticatable
         return redirect()->route('super');
 
       }elseif($role_name == 'po'){
-        //Auth::login($this);
         return redirect()->route('po');
 
       }elseif($role_name == 'manager'){
-       // Auth::login($this);
         return redirect()->route('manager');
 
       }elseif($role_name == 'coc'){
@@ -98,7 +96,6 @@ class UserController extends Controller implements Authenticatable
       }
     }
   return redirect()->back();
-       // return redirect()->back();
     }
 
    public function signInView(){

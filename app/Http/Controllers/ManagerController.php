@@ -19,7 +19,6 @@ class ManagerController extends Controller
         $this->validate($request,[
           'content' => 'required'
         ]);
-       // $proc = $request['postIds'];
         $tenderPost = new TenderPost();
         $tenderPost->purchaser =$request['purchaser'];
         $tenderPost->purchase_method = $request['purchase_method'];
@@ -84,4 +83,9 @@ class ManagerController extends Controller
     public function payment(){
           return view('admin.manager.payment_list');
     }
+
+    public function telegramView(){
+        return view('admin.manager.telegram');
+    }
+    
 }
