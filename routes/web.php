@@ -292,8 +292,14 @@ use Illuminate\Support\Facades\Route;
             'uses' => 'ManagerController@telegramView',
             'as' => 'telegram.view'
       ]);
-      //................
+
+      Route::post('/telegram.post', [
+           'uses' => 'TelegramController@sendMessage',
+           'as'=>'telegram.post'
+         ]);
+
       });
+
        // ####################### Home  Route ############################
 
       Route::get('/home', [
@@ -323,5 +329,5 @@ use Illuminate\Support\Facades\Route;
              'uses' => 'CommitteChairController@bidding_page'
        ]);
 
-});
+ });
 

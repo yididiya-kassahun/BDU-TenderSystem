@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\TenderPost;
 use App\Procurement;
 use App\Bidder;
+use App\TelegramMember;
 
 class ManagerController extends Controller
 {
+
     public function _construct(){
-        $this->middleware('auth:user');
+         $this->middleware('auth:user');
     }
 
      public function createTenderPost(Request $request){
@@ -45,6 +47,7 @@ class ManagerController extends Controller
           }
           return redirect()->route('manager')->with(['message'=>$message]);
     }
+
     public function disapproveTender($tender_id){
         $user = Auth::user();
         $user_id =$user->id;
@@ -85,7 +88,9 @@ class ManagerController extends Controller
     }
 
     public function telegramView(){
-        return view('admin.manager.telegram');
+          $members = TelegramMember::paginate(5);
+
+          return view('admin.manager.telegram',['members'=>$members]);
     }
-    
+
 }

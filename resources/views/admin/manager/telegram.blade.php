@@ -41,49 +41,15 @@
             </div>
 
             <div class="x_panel">
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 label-align" for="name">ግዥ ፈጻሚ አካል <span
-                            class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6">
-                        <input id="purchaser" class="form-control" data-validate-words="2" required="required"
-                            type="text">
-                    </div>
-                </div>
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 label-align">የጨረታ ሰነድ የወጣበት የግዥ ዘዴ <span
-                            class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6">
-                        <input id="purchase_method" required="required" class="form-control">
-                    </div>
-                </div>
-
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 label-align" for="number">የአገልግሎት ግዢ አይነት <span
-                            class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6">
-                        <input type="text" id="purchase_type" required="required" class="form-control">
-                    </div>
-                </div>
-
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 label-align" for="telephone">የግዥ መለያ ቁጥር <span
-                            class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6">
-                        <input type="text" id="purchase_id_no" required="required" class="form-control">
-                    </div>
-                </div>
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="textarea">የጨረታ ሰነድ የብዙ ምድብ(lot) መለያ
-                        ቁጥር <span class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6">
-                        <input required="required" id="lot_no" class="form-control"></textarea>
-                    </div>
-                </div>
+              <form method="POST" action="{{ route('telegram.post') }}">
+                  {{ csrf_field() }}
+              <div class="item form-group">
+                        <label class="col-form-label col-md-3 label-align" for="name">የማስታወቂያ ርዕስ <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6">
+                          <input name="title" id="purchaser" class="form-control" required="required" type="text">
+                        </div>
+                      </div>
 
                 {{-- ***************** Modal body *********************** --}}
                 </br>
@@ -174,10 +140,34 @@
 
                 <div class="form-group">
                     <div id="editor-one" class="editor-wrapper">
-                        <textarea class="form-control" rows="10" id="content" id="descr"></textarea></div>
+                        <textarea name="content" class="form-control" rows="10" id="content" id="descr"></textarea></div>
                     <br />
                 </div>
                 <button type="submit" id="modal-savee" class="btn btn-primary" data-dismiss="modal">Post</button>
+            </form>
+            </div>
+
+            <div class="x_panel">
+                <h3>Telegram Bot Registered Members</h3>
+                <table class="table table-striped">
+                   <thead>
+                        <th>User Name</th>
+                        <th>Telegram Id</th>
+                        <th>Created at</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        @foreach($members as $member)
+                        <tr>
+                          <td>{{ $member->user_name }}</td>
+                          <td>{{ $member->chat_id }}</td>
+                          <td>{{ $member->created_at }}</td>
+                            <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    </table>
+                </table>
             </div>
         </div>
         <footer>
