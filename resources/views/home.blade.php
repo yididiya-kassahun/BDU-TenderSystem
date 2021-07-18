@@ -27,7 +27,7 @@
         <div class="main_container">
             @section('header')
             <img src="build/images/banner.jpg" width="100%" height="18%" alt="banner logo">
-       {{--  <h1 style="margin-left:400px"> Tender anouncement</h1>  --}}
+       {{--  <h1 style="margin-left:400px"> Tender anouncement</h1>  --}} 
        <div class="separator"></div>
        <div class="x_panel" style="margin-top:70px">
        <section class="row posts">

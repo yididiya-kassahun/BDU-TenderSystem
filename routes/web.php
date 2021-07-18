@@ -123,6 +123,11 @@ use Illuminate\Support\Facades\Route;
             'as'=>'bidder.finance'
       ]);
 
+      Route::post('/bidderOtherFiles',[
+            'uses'=>'BidderController@bidderOtherFiles',
+            'as'=>'bidder.other.files'
+      ]);
+
      });
 
     // Route::get('/generatepdf', function(){
@@ -163,6 +168,11 @@ use Illuminate\Support\Facades\Route;
             'as' => 'sendEmail.super'
       ]);
       Route::get('email', ['uses'=>'MailController@email']);
+
+      Route::get('/delete.admins/{id}' , [
+            'uses' => 'SuperAdminController@deleteAdmins',
+            'as' => 'delete.admins'
+      ]);
       // #################### Procurement Officer ##################################
 
       Route::get('/po', [
@@ -189,6 +199,12 @@ use Illuminate\Support\Facades\Route;
        Route::get('/download/{name}', [
              'uses' => 'CommitteChairController@download',
              'as' => 'download'
+
+       ]);
+
+       Route::get('/otherDownload/{name}', [
+             'uses' => 'CommitteChairController@otherDownload',
+             'as' => 'otherDownload'
 
        ]);
 
@@ -248,6 +264,10 @@ use Illuminate\Support\Facades\Route;
         'uses' => 'CommitteChairController@infodelete',
         'as'=>'info.coc.delete'
       ]);
+      Route::get('/clear.data',[
+          'uses'=>'CommitteChairController@clear_data',
+          'as' => 'clear.data'
+      ]);
 
       // ###################### Manager Route ##############################
 
@@ -297,6 +317,11 @@ use Illuminate\Support\Facades\Route;
            'uses' => 'TelegramController@sendMessage',
            'as'=>'telegram.post'
          ]);
+
+    Route::get('/deleteTgMember/{memberId}', [
+           'uses' => 'ManagerController@deleteTgMember',
+           'as'=>'deleteTgMember'
+    ]);
 
       });
 

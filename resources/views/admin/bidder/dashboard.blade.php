@@ -105,6 +105,8 @@
                 <div class="col-md-4">
                     <div class="x_panel">
                         <div class="x_content">
+                            <form method="POST" action="{{ route('bidder.other.files') }}" enctype="multipart/form-data">
+                                {{ csrf_field() }}
                             <div>
                                 <h5><small><u>የውክልና ማስረጃ</u></small>
                                     <ul>
@@ -123,11 +125,12 @@
                                         </ul>
                                     </h5>
                                 </p>
-                                <input type="file" name="wukilna" class="form-control btn btn-primary">
+                                <input type="file" name="technical_efficiency" class="form-control btn btn-primary">
                                 <div class="separator"></div>
-                                <button class="btn btn-dark col-md-7" style="margin-left:100px"> Upload Document
+                                <button type="submit" class="btn btn-dark col-md-7" style="margin-left:100px"> Upload Document
                                 </button><br />
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -209,7 +212,7 @@
                     </div>
                 </div>
                 {{--  ......................  --}}
-                <div id="signature-pad" class="jay-signature-pad">
+                {{-- <div id="signature-pad" class="jay-signature-pad">
                     <div class="jay-signature-pad--body">
                         <canvas id="jay-signature-pad" width=400 height=250></canvas>
                     </div><br />
@@ -223,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 {{--  ............................  --}}
             </div>
         </div>
@@ -231,10 +234,10 @@
     <footer>
         @include('admin.sections.footer')
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script> --}}
 
-
+{{--
     <script>
         var wrapper = document.getElementById("signature-pad");
         var clearButton = wrapper.querySelector("[data-action=clear]");
@@ -337,6 +340,6 @@
             }
         });
 
-    </script>
+    </script> --}}
 
     @endsection

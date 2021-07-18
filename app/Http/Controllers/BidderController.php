@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Response;
 use App\BidderFile;
 use App\BidderInfo;
+use App\BidderWinner;
 use App\Bidder;
 use App\TenderPost;
 use App\AuditorInfo;
 use App\Income;
 use App\Information;
 use App\BidderFinance;
+use App\BidderOtherFile;
 use DateTime;
 use PDF;
 use Carbon\Carbon;
@@ -140,7 +142,7 @@ class BidderController extends Controller
         $i=1;
         foreach ($file as $images) {
             $filename = $images->getClientOriginalName();
-          //  $file_extension = strtolower($images->getClientOriginalExtension());
+           // $file_extension = strtolower($images->getClientOriginalExtension());
            // $posted_file_name = time().'.'. $file_extension;
 
             $destinationPath = public_path('/images');
@@ -160,6 +162,39 @@ class BidderController extends Controller
            return redirect()->route('bidder');
               }
 
+              // *********** Bidder Other Doc Files *****************
+
+        public function bidderOtherFiles(Request $request){
+                  $file = request()->file();
+                  $status = "Uploaded";
+                  $message = 'file status';
+
+            foreach ($file as $doc) {
+            $filename = $doc->getClientOriginalName();
+            //return $doc->getClientOriginalExtension();
+
+            if($doc->getClientOriginalExtension() == 'pdf'){
+
+            $destinationPath = public_path('/OtherDocs');
+            $doc->move($destinationPath, $filename);
+            $doc_url = 'http://127.0.0.1:8000/OtherDocs/'.$filename;
+
+            $bidderOtherFiles = new BidderOtherFile();
+            $bidderOtherFiles->doc_name = $filename;
+            $bidderOtherFiles->url = $doc_url;
+            $bidderOtherFiles->status = $status;
+            $request->user('bidder')->otherFiles()->save($bidderOtherFiles);
+            $bidderOtherFiles->save();
+            $message = 'File Uploaded';
+
+            }else{
+                $message = 'Unsupported File !!!';
+              // return redirect()->route('bidder')->with(['message'=>$message]);
+            }
+          }
+           return redirect()->route('bidder',['message'=>$message]);
+        }
+
           public function info_page(){
             $user = Auth::guard('bidder')->user();
 
@@ -170,15 +205,22 @@ class BidderController extends Controller
            $date = Carbon::parse($item);
            $information = Information::where(['tender_id'=>$user->tender_id])->first();
 
+           $bidderWinnerData = BidderWinner::where(['bidder_id'=>$user->id])->first();
+           if($bidderWinnerData){
+            $winnerId = $bidderWinnerData->bidder_id;
+
+            $bidderWinner = Bidder::where(['id'=>$winnerId])->first();
+
             $user_id =$user->id;
             $default = Bidder::where(['id'=>$user_id])->first();
             $profile = BidderInfo::where(['id'=>$user_id])->first();
-            if($profile){
-                return view('admin.bidder.info',['profile'=>$profile],['date'=>$date,'info'=>$information]);
-            }else{
-                return view('admin.bidder.info',['profile'=>$default]);
-              }
+            if($profile && $bidderWinnerData ){
+                return view('admin.bidder.info',['profile'=>$profile],['date'=>$date,'info'=>$information,'winner'=>$bidderWinner]);
             }
+           }else{
+                return view('errors.infoError');
+              }
+         }
 
             public function forms(){
                 $user = Auth::guard('bidder')->user();
@@ -223,7 +265,6 @@ class BidderController extends Controller
                     $message = 'Form saved successfully';
                 }
                 return redirect()->route('bidder.form');
-
              }
 
             public function storeSignature(Request $request){

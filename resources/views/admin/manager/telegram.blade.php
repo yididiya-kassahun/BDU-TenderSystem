@@ -162,7 +162,7 @@
                           <td>{{ $member->user_name }}</td>
                           <td>{{ $member->chat_id }}</td>
                           <td>{{ $member->created_at }}</td>
-                            <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                            <td><a href="{{ route('deleteTgMember',['memberId'=>$member->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
                         </tr>
                         @endforeach
                     </tbody>

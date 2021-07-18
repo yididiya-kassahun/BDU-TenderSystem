@@ -14,6 +14,10 @@ class Bidder extends Model implements Authenticatable
         return $this->hasMany('App\BidderFile');
     }
 
+    public function otherFiles(){
+        return $this->hasMany('App\BidderOtherFile');
+    }
+
     public function Bidderfiles(){
         return $this->hasMany('App\BidderInfo');
     }

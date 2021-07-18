@@ -18,6 +18,7 @@ use App\TechnicalRank;
 use App\Income;
 use App\BidderWinner;
 use App\BidderFinance;
+use App\BidderOtherFile;
 use App\TechnicalBidResult;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -36,15 +37,11 @@ class CommitteChairController extends Controller
         return view('admin.committe-chair.compliance',['allCompliances'=>$showCompliance],['replys'=>$showReply]);
     }
 
-    public function replyCompliance(Request $request){
-
+ public function replyCompliance(Request $request){
         $this->validate($request, [
                  'body' => 'required'
         ]);
-
         $compliance_id =DB::table('compliances')->where('id','=',$request['postId'])->value('id');
-
-       // echo($compliance_id);
         $replyCompliance =new Reply();
         $replyCompliance->Reply =$request['body'];
         $replyCompliance->compliance_id = $compliance_id;
@@ -87,7 +84,9 @@ class CommitteChairController extends Controller
         ->select('files.name','bidder_files.files', 'bidder_files.url')
         ->get();
 
-        //return $results;
+        // Bidder Other Related Doc
+
+        $otherBidderFiles = BidderOtherFile::where(['bidder_id'=>$id])->get();
 
      return view('admin.committe-chair.bidding',
                 ['bidderFile'=>$bidderProfile,
@@ -95,7 +94,8 @@ class CommitteChairController extends Controller
                  'income'=>$income,
                  'auditor'=>$auditor,
                  'showTechs'=>$rank,'bidder'=>$bidder,
-                 'technicals'=>$technical]);
+                 'technicals'=>$technical,
+                 'otherBidderFiles'=>$otherBidderFiles]);
        }else{
         return view('errors.error404');
        }
@@ -120,6 +120,19 @@ class CommitteChairController extends Controller
          }else{
           return view('errors.permissionError',['date'=>$date]);
          }
+    }
+    public function clear_data(){
+
+        $message = "";
+        $deleteWinner = BidderWinner::truncate();
+        if($deleteWinner){
+            $message = "data cleared successfully";
+            return $message;
+        }else{
+            $message = "data did not cleared successfully";
+            return $message;
+        }
+      //  return redirect()->back()->with(['message'=>$message]);
     }
     public function finance(){
         $tenderDate = DB::table('information')->select('tender_finishing_date')
@@ -166,6 +179,24 @@ class CommitteChairController extends Controller
                 exit('Requested file does not exist on our server!');
             }
     }
+
+     public function otherDownload($filename){
+             $headers = array(
+                'Content-Disposition' => 'inline',
+            );
+
+            $file_path = public_path()."/otherDocs/".$filename;
+            if (file_exists($file_path))
+            {
+                return response()->download($file_path, $filename, $headers);
+            }
+            else
+            {
+                // Error
+                exit('Requested file does not exist on our server!');
+            }
+    }
+
     public function informations(){
         $user = Auth::user();
         $tender_name = 'null';
@@ -173,11 +204,9 @@ class CommitteChairController extends Controller
         $tenderTypes = TenderPost::all();
         $information = Information::all();
 
-       // foreach($tenderTypes as $tenderType){
             foreach($information as $info)
             $tender_name = TenderPost::where('tender_id','=',$info->tender_id)->first();
 
-      //  }
         return view('admin.committe-chair.information',
         ['tenderTypes'=>$tenderTypes,
         'informations'=>$information,
@@ -257,8 +286,8 @@ class CommitteChairController extends Controller
         $j = 0;
         foreach($price as $prices){
 
-                $beneficial[$j] =($prices->guarantee_date/$guarantee_value)*0.2; // Is a criteria where higher value is desired
-                $non_beneficial[$j] =($price_value/$prices->tender_price)*0.8; // Is a criteria where lower value is desired
+                $beneficial[$j] =($prices->guarantee_date/$guarantee_value)*0.4; // Is a criteria where higher value is desired
+                $non_beneficial[$j] =($price_value/$prices->tender_price)*0.6; // Is a criteria where lower value is desired
 
                 if(BidderWinner::where('bidder_id',$prices->bidder_id)->exists()){
                     $message = "data already exist";

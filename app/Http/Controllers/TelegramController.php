@@ -35,12 +35,10 @@ class TelegramController extends Controller
            $addData->text =$request['message']['text'];
            $addData->save();
 
-       $members = TelegramMember::all();
-       foreach($members as $member){
-        file_get_contents($this->telegram_url."/sendmessage?chat_id=".$member->chat_id."&text=".urlencode("ሰላም ").$member->user_name."\n\n".urlencode (" ይህ የባህር ዳር ዩኒቨርሲቲ የጨረታና ልዩ ልዩ ማስታወቂያ መከታተያ Bot ነው። እንኳን ደህና መጡ።"));
-          }
-       return response()->json(['Data Successfully Saved & Sent!'], 200);
+       $member = TelegramMember::where(['chat_id','=',$request['message']['from']['id']])->first();
 
+        file_get_contents($this->telegram_url."/sendmessage?chat_id=".$member->chat_id."&text=".urlencode("ሰላም ").$member->user_name."\n\n".urlencode (" ይህ የባህር ዳር ዩኒቨርሲቲ የጨረታና ልዩ ልዩ ማስታወቂያ መከታተያ Bot ነው። እንኳን ደህና መጡ።"));
+       return response()->json(['Data Successfully Saved & Sent!'], 200);
       }
 
       public function sendMessage(Request $request){

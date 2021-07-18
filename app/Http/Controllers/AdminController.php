@@ -49,7 +49,7 @@ class AdminController extends Controller
     $this->validate($request,[
         'email' => 'required',
         'password' => 'required|min:3',
-  ]);
+     ]);
 
   if(Auth::attempt(['email' => $request->email,'password' => $request->password],$request->remember)){
 
@@ -106,6 +106,6 @@ class AdminController extends Controller
 
     Auth::logout();
     return redirect()->route('home');
-    
+
    }
 }

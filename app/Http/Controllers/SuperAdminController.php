@@ -8,7 +8,7 @@ use App\Role;
 
 class SuperAdminController extends Controller
 {
-    
+
 
     public function super_view(){
         $user = User::all();
@@ -16,9 +16,9 @@ class SuperAdminController extends Controller
     }
 
     public function permissions(Request $request){
-            
+
         $admin = User::where('email' ,$request['email'])->first();
-        
+
         if($request['role_po']){
            $admin->roles()->attach(Role::where('name','po')->first());
         }
@@ -30,4 +30,17 @@ class SuperAdminController extends Controller
          }
          return redirect()->back();
     }
+
+    public function deleteAdmins($id){
+
+         $deleteAdmin = User::find($id);
+         $message = "Admin not deleted";
+
+            if($deleteAdmin->delete()){
+                $message = 'Admin deleted Successfully';
+                return redirect()->route('super')->with(['message'=>$message]);
+               }else{
+              return redirect()->back()->with(['message'=>$message]);
+    }
+  }
 }

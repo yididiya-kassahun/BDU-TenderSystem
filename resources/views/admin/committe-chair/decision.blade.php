@@ -102,7 +102,7 @@
                      </div>
 
                   </div>
-                  <button type="submit" class="btn btn-info" style="margin-left: 400px">Process</button> |  <button type="submit" class="btn btn-danger">Show</button>
+                  <button type="submit" class="btn btn-info" style="margin-left: 400px">Process</button> |  <button type="submit" class="btn btn-dark">Show</button> | <a class="btn btn-danger" href="{{ route('clear.data') }}">Clear</a>
                 </form>
                   <div class="x_panel">
                     <div class="x_title">

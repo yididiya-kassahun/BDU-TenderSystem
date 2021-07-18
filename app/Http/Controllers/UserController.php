@@ -31,6 +31,7 @@ class UserController extends Controller implements Authenticatable
         $password = bcrypt($request['password']);
 
         $defaultPhoto ='user.png';
+        
         $bidder = new Bidder();
         $bidder->first_name = $first_name;
         $bidder->last_name = $last_name;
@@ -59,7 +60,6 @@ class UserController extends Controller implements Authenticatable
         return redirect()->route('bidder');
 
       }elseif(Auth::attempt(['email' => $request->email,'password' => $request->password],$request->remember)){
-
 
         // ########## Fetch user id from user table
         // ########## Match it in user->role table

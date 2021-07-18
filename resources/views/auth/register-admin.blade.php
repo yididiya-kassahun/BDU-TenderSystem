@@ -3,7 +3,7 @@
 @section('body_class','login')
 
 @section('content')
-    
+
         <div class="col-md-4" style="margin-left:500px;margin-top:70px">
         <div class="right_col" role="main">
         <div class="x_panel">
@@ -12,7 +12,7 @@
          <div class="clearfix"></div>
                 <br />
          <form action="{{ route('admin.register') }}" method="POST" class="form-horizontal form-label-left">
-           
+
             <div class="form-group row">
              <label for="first-name">First Name</label>
              <input class="form-control" type="text" name="first_name" id="first-name">
@@ -36,12 +36,12 @@
                               </div>
                             </div>
                           </div>
-           
+
             <div class="form-group row">
              <label for="email">Email</label>
              <input class="form-control" type="email" name="email" id="email">
             </div>
-            
+
             <div class="form-group row">
              <label for="ph-num">Phone Number</label>
              <input class="form-control" type="number" name="phone_number" id="ph-num">
@@ -60,5 +60,5 @@
          </div>
          </div>
          </div>
-        </section>    
+        </section>
 @endsection

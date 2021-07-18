@@ -93,4 +93,21 @@ class ManagerController extends Controller
           return view('admin.manager.telegram',['members'=>$members]);
     }
 
+    public function deleteTgMember($id){
+        $user = Auth::user();
+        $message = 'Member deletion failed!!';
+        if($user){
+
+        $memberId = TelegramMember::find($id);
+        if($id instanceof $memberId){
+            if($memberId->delete()){
+                $message = 'Member deleted Successfully';
+            }
+              return redirect()->route('manager')->with(['message'=>$message]);
+        }
+        }else{
+              return redirect()->back()->with(['message'=>$message]);
+        }
+    }
+
 }

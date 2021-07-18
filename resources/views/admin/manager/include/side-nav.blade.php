@@ -6,7 +6,7 @@
                   <li><a href=" {{ route('add-bidder')}}"><i class="fa fa-edit"></i> Bidders List</a> </li>
                   <li><a href=" {{ route('approved')}}"><i class="fa fa-clone"></i>Approved Tenders</a></li>
                   <li><a href=" {{ route('paid')}}"><i class="fa fa-credit-card"></i>Payment Result</a></li>
-                  <li><a href=" {{ route('telegram.view')}}"><i class="fa fa-send"></i>Telegram Post</a></li>
+                  {{--  <li><a href=" {{ route('telegram.view')}}"><i class="fa fa-send"></i>Telegram Post</a></li>  --}}
                 </ul>
               </div>
             </div>

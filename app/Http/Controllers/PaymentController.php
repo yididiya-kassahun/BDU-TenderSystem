@@ -25,7 +25,6 @@ class PaymentController extends Controller
                            "currency"=> "usd",
                            "source"=> $request->input('stripeToken'),
                            "description"=> "test charge"
-                          
                        ));
                    }catch(\Exception $e){
                        return redirect()->route('payment');
