@@ -245,9 +245,7 @@ class CommitteChairController extends Controller
         if($info->save()){
             $message = 'Information Successfully Posted !!';
         }
-
         return redirect()->route('information.page')->with(['message'=>$message]);
-
     }
 
    public function technicalBidResult(Request $request,$id){
@@ -298,7 +296,6 @@ class CommitteChairController extends Controller
                 $final_value->save();
 
                 $j = $j+1;
-
              }
             }
        $winner = BidderWinner::orderBy('price_based','desc')->first();
